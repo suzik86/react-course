@@ -18,3 +18,7 @@
     transform: rotate(360deg);
   }
 }
+
+.not-found {
+  font-size: 20px;
+}

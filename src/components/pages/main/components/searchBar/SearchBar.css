@@ -21,3 +21,14 @@
   color: white;
   margin-left: 15px;
 }
+
+.throw-error-btn {
+  text-wrap: nowrap;
+  padding: 10px 20px;
+  background-color: #f44336;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-left: 15px;
+}

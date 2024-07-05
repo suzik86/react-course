@@ -4,7 +4,7 @@ import MainPage from "./components/pages/main/MainPage";
 
 function App() {
   return (
-    <ErrorBoundary fallback={<p>Something went wrong</p>}>
+    <ErrorBoundary fallback={<p className="error-msg">Something went wrong</p>}>
       <MainPage />
     </ErrorBoundary>
   );

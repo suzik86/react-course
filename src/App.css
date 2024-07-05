@@ -5,3 +5,7 @@
   padding: 2rem;
   text-align: center;
 }
+
+.error-msg {
+  font-size: 35px;
+}

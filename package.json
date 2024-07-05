@@ -10,7 +10,7 @@
     "preview": "vite preview",
     "format:fix": "prettier --write .",
     "prepare": "husky"
-  },  
+  },
   "dependencies": {
     "lint-staged": "^15.2.7",
     "prettier": "^3.3.2",

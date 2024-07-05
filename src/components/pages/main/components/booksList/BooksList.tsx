@@ -27,7 +27,9 @@ class BooksList extends React.Component<Props, State> {
 
     return (
       <div>
-        {this.props.list.length === 0 && <p>No matching books</p>}
+        {this.props.list.length === 0 && (
+          <p className="not-found">No matching books</p>
+        )}
         {this.props.list.length > 0 &&
           this.props.list.map((book, i) => <Book book={book} key={i} />)}
       </div>
