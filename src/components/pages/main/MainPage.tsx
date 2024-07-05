@@ -5,7 +5,7 @@ import { BookInterface } from "../../../interfaces";
 import { apiService } from "../../../services/ApiService";
 import SearchBar from "./components/searchBar/SearchBar";
 
-interface State {  
+interface State {
   searchTerm: string;
   bookList: BookInterface[];
   fetchStatus: "loading" | "error" | "done";
@@ -18,11 +18,11 @@ class MainPage extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
 
-    this.state = {      
+    this.state = {
       searchTerm: localStorage.getItem("searchTerm") || "",
       bookList: [],
       fetchStatus: "loading",
-      error: null,      
+      error: null,
     };
   }
 
@@ -35,7 +35,7 @@ class MainPage extends React.Component<Props, State> {
       const list = await apiService.getBooks(this.state.searchTerm.trim());
       this.setState({
         bookList: list,
-        fetchStatus: "done",        
+        fetchStatus: "done",
       });
     } catch {
       this.setState({ fetchStatus: "error" });
@@ -53,11 +53,11 @@ class MainPage extends React.Component<Props, State> {
     } catch (error) {
       this.setState({ error: error as Error });
     }
-  }
+  };
 
   render() {
     if (this.state.error) {
-      return <h1>Caught an error.</h1>
+      return <h1>Caught an error.</h1>;
     }
     return (
       <main className="main">
@@ -71,7 +71,9 @@ class MainPage extends React.Component<Props, State> {
           list={this.state.bookList}
           fetchStatus={this.state.fetchStatus}
         />
-        <button className="throw-error-btn" onClick={() => this.throwError()}>Throw error</button>
+        <button className="throw-error-btn" onClick={() => this.throwError()}>
+          Throw error
+        </button>
       </main>
     );
   }

@@ -8,16 +8,14 @@
     "build": "tsc -b && vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
-    "format:fix": "prettier --write .",
-    "precommit": "npm run lint"
+    "format:fix": "prettier --write ."
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run precommit"
+      "pre-commit": "npm run lint"
     }
   },
   "dependencies": {
-    "husky": "^9.0.11",
     "lint-staged": "^15.2.7",
     "prettier": "^3.3.2",
     "react": "^18.3.1",
@@ -33,6 +31,7 @@
     "eslint-plugin-react-compiler": "^0.0.0-experimental-0998c1e-20240625",
     "eslint-plugin-react-hooks": "^4.6.2",
     "eslint-plugin-react-refresh": "^0.4.7",
+    "husky": "^9.0.11",
     "typescript": "^5.2.2",
     "vite": "^5.3.1"
   }
