@@ -2,24 +2,19 @@ import React from "react";
 import { BookInterface } from "../../../../../interfaces";
 import "./Book.css";
 
-interface State {    
-}
+interface State {}
 
-interface Props {  
-    book: BookInterface;
+interface Props {
+  book: BookInterface;
 }
 
 class Book extends React.Component<Props, State> {
-
   constructor(props: Props) {
     super(props);
 
-    this.state = {
-      
-    };
+    this.state = {};
   }
 
-  
   render() {
     return (
       <div className="book-card">
@@ -27,10 +22,9 @@ class Book extends React.Component<Props, State> {
         <div>
           <p>Published year: {this.props.book.publishedYear}</p>
           <p>Number of pages: {this.props.book.numberOfPages}</p>
-        </div>        
+        </div>
       </div>
     );
   }
-
 }
 export default Book;
