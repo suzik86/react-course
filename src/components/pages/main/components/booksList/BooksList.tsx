@@ -1,12 +1,12 @@
 import React from "react";
 import "./BooksList.css";
-import { BookInterface } from "../../../../../interfaces";
+import { IBook } from "../../../../../interfaces";
 import Book from "../book/Book";
 
 interface State {}
 
 interface Props {
-  list: BookInterface[];
+  list: IBook[];
   fetchStatus: "loading" | "error" | "done";
 }
 

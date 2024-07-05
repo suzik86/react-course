@@ -1,6 +1,6 @@
-import { ResponseInterface } from "../interfaces";
+import { IResponse } from "../interfaces";
 
-const BASE_URL = "https://stapi.co/api/v2/rest/book/search";
+const BASE_URL = "https://stapi.co/api/v2/rest";
 
 export class ApiService {
   async getBooks(searchTerm: string) {
@@ -13,8 +13,8 @@ export class ApiService {
         },
         body: "title=" + searchTerm,
       };
-      const response = await fetch(BASE_URL, config);
-      const json = (await response.json()) as ResponseInterface;
+      const response = await fetch(`${BASE_URL}/book/search`, config);
+      const json = (await response.json()) as IResponse;
       if (response.ok) {
         return json.books;
       }

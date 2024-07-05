@@ -1,12 +1,12 @@
 import React from "react";
 import BooksList from "./components/booksList/BooksList";
-import { BookInterface } from "../../../interfaces";
+import { IBook } from "../../../interfaces";
 import { apiService } from "../../../services/ApiService";
 import SearchBar from "./components/searchBar/SearchBar";
 
 interface State {
   searchTerm: string;
-  bookList: BookInterface[];
+  bookList: IBook[];
   fetchStatus: "loading" | "error" | "done";
 }
 

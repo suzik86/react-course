@@ -1,11 +1,11 @@
 import React from "react";
-import { BookInterface } from "../../../../../interfaces";
+import { IBook } from "../../../../../interfaces";
 import "./Book.css";
 
 interface State {}
 
 interface Props {
-  book: BookInterface;
+  book: IBook;
 }
 
 class Book extends React.Component<Props, State> {

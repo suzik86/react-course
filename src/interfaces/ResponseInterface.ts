@@ -1,6 +1,6 @@
-import { BookInterface } from "./BookInterface";
+import { IBook } from "./BookInterface";
 
-export interface ResponseInterface {
+export interface IResponse {
   page: {
     pageNumber: number;
     pageSize: number;
@@ -13,5 +13,5 @@ export interface ResponseInterface {
   sort: {
     clauses: string[];
   };
-  books: BookInterface[];
+  books: IBook[];
 }
