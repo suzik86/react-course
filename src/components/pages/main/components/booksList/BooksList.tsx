@@ -1,6 +1,7 @@
 import React from 'react';
 import './BooksList.css';
 import { BookInterface } from '../../../../../interfaces';
+import Book from '../book/Book';
 
 interface State {  
 }
@@ -15,8 +16,7 @@ class BooksList extends React.Component<Props, State> {
     constructor(props: Props) {
         super(props);
       
-        this.state = {
-          // Sets that initial state
+        this.state = {          
         };      
         
     }   
@@ -30,11 +30,11 @@ class BooksList extends React.Component<Props, State> {
         }  
       
         return (
-            <ul>
+            <div>
                 {this.props.list.map((book, i) => (
-                <li key={i}>{book.title}</li>
+                  <Book book={book} key={i}/>
                 ))}
-          </ul>         
+            </div>         
         );
   }
 }

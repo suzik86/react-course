@@ -1,54 +1,66 @@
-import React from 'react';
-import './MainPage.css';
-import BooksList from './components/booksList/BooksList';
-import { BookInterface } from '../../../interfaces';
-import { apiService } from '../../../services/ApiService';
+import React from "react";
+import "./MainPage.css";
+import BooksList from "./components/booksList/BooksList";
+import { BookInterface } from "../../../interfaces";
+import { apiService } from "../../../services/ApiService";
+import SearchBar from "./components/searchBar/SearchBar";
 
 interface State {
-    fetchStatus: "loading" | "error" | "done";
-    searchTerm: string;
-    bookList: BookInterface[];
+  fetchStatus: "loading" | "error" | "done";
+  searchTerm: string;
+  bookList: BookInterface[];
 }
 
 interface Props {}
 
 class MainPage extends React.Component<Props, State> {
+  constructor(props: Props) {
+    super(props);
 
-    constructor(props: Props) {
-        super(props);
-      
-        this.state = {
-            fetchStatus: "loading",
-            searchTerm: "",
-            bookList: []
-        };
-      
-    }  
-    
-    async componentDidMount() {
-        try {          
-          const list = await apiService.getBooks(this.state.searchTerm);
-          this.setState({
-            bookList: list,
-            fetchStatus: "done"
-          });
-        } catch {
-          this.setState({ fetchStatus: "error" });
-        }
-      }    
+    this.state = {
+      fetchStatus: "loading",
+      searchTerm: localStorage.getItem("searchTerm") || "",
+      bookList: [],
+    };
+  }
 
-    render() {     
-      
-        return (  
-            <div>
-                <div>                    
-                    <input type="search" placeholder="Search..." />
-                    <button>Search</button>
-                </div>
-                <BooksList list={this.state.bookList} fetchStatus={this.state.fetchStatus}/>
-                <button>Throw error</button>
-            </div>
-        );  
+  async componentDidMount() {
+    await this.getBooks();
+  }
+
+  async getBooks() {
+    try {
+      const list = await apiService.getBooks(this.state.searchTerm.trim());
+      this.setState({
+        bookList: list,
+        fetchStatus: "done",
+      });
+    } catch {
+      this.setState({ fetchStatus: "error" });
+    }
+  }
+
+  setSearchTerm = (searchTerm: string) => {
+    localStorage.setItem("searchTerm", searchTerm);
+    this.setState({ searchTerm });
+  };
+
+  render() {
+    return (
+      <main className="main">
+        <h1>Book Library</h1>
+        <SearchBar
+          searchTerm={this.state.searchTerm}
+          setSearchTerm={this.setSearchTerm}
+          getBooks={() => this.getBooks()}
+        />
+        <BooksList
+          list={this.state.bookList}
+          fetchStatus={this.state.fetchStatus}
+        />
+        <button>Throw error</button>
+      </main>
+    );
   }
 }
 

@@ -10,7 +10,7 @@ export class ApiService {
                     'Accept': 'application/json',
                     'Content-Type': 'application/x-www-form-urlencoded'                   
                 },
-                body: JSON.stringify({title: searchTerm})
+                body: "title=" + searchTerm
             };
             const response = await fetch('https://stapi.co/api/v2/rest/book/search', config);
             const json = await response.json() as ResponseInterface;
