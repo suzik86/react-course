@@ -2,39 +2,26 @@ import React from "react";
 import "./BooksList.css";
 import { IBook } from "../../../../../interfaces";
 import Book from "../book/Book";
-
-interface State {}
+import { FetchStatusEnum } from "../../../../../enums/FetchStatusEnum";
 
 interface Props {
   list: IBook[];
-  fetchStatus: "loading" | "error" | "done";
+  fetchStatus: FetchStatusEnum;
 }
-
-class BooksList extends React.Component<Props, State> {
-  constructor(props: Props) {
-    super(props);
-
-    this.state = {};
+const BooksList: React.FC<Props> = ({ list, fetchStatus }) => {
+  if (fetchStatus === "loading") {
+    return <div className="loader"></div>;
+  }
+  if (fetchStatus === "error") {
+    return <div>ERR!</div>;
   }
 
-  render() {
-    if (this.props.fetchStatus === "loading") {
-      return <div className="loader"></div>;
-    }
-    if (this.props.fetchStatus === "error") {
-      return <div>ERR!</div>;
-    }
-
-    return (
-      <div>
-        {this.props.list.length === 0 && (
-          <p className="not-found">No matching books</p>
-        )}
-        {this.props.list.length > 0 &&
-          this.props.list.map((book, i) => <Book book={book} key={i} />)}
-      </div>
-    );
-  }
-}
+  return (
+    <div>
+      {list.length === 0 && <p className="not-found">No matching books</p>}
+      {list.length > 0 && list.map((book, i) => <Book book={book} key={i} />)}
+    </div>
+  );
+};
 
 export default BooksList;

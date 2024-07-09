@@ -1,60 +1,52 @@
 import React from "react";
 import "./SearchBar.css";
 
-interface State {
-  error: Error | null;
-}
-
 interface Props {
   searchTerm: string;
   setSearchTerm: (searchTerm: string) => void;
   getBooks: () => void;
 }
 
-class SearchBar extends React.Component<Props, State> {
-  constructor(props: Props) {
-    super(props);
+const SearchBar: React.FC<Props> = ({
+  searchTerm,
+  setSearchTerm,
+  getBooks,
+}) => {
+  const [error, setError] = React.useState<Error | null>(null);
 
-    this.state = {
-      error: null,
-    };
-  }
-
-  handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    this.props.getBooks();
+    getBooks();
   };
 
-  throwError = () => {
+  const throwError = () => {
     console.log("Throwing error");
-    this.setState({ error: new Error("Simulated error.") });
+    setError(new Error("Simulated error."));
   };
 
-  componentDidUpdate(_: Readonly<Props>, prevState: Readonly<State>): void {
-    if (prevState.error !== this.state.error) {
+  React.useEffect(() => {
+    if (error) {
       throw new Error("Simulated error.");
     }
-  }
+  }, [error]);
 
-  render() {
-    return (
-      <form onSubmit={this.handleSearch} className="search-bar">
-        <input
-          className="search-input"
-          type="search"
-          placeholder="Enter book title..."
-          value={this.props.searchTerm}
-          onChange={(e) => this.props.setSearchTerm(e.target.value)}
-        />
-        <button className="search-btn" type="submit">
-          Search
-        </button>
-        <button className="throw-error-btn" onClick={() => this.throwError()}>
-          Throw error
-        </button>
-      </form>
-    );
-  }
-}
+  return (
+    <form onSubmit={handleSearch} className="search-bar">
+      <input
+        className="search-input"
+        type="search"
+        placeholder="Enter book title..."
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+      />
+      <button className="search-btn" type="submit">
+        Search
+      </button>
+      <button className="throw-error-btn" onClick={throwError}>
+        Throw error
+      </button>
+    </form>
+  );
+};
 
 export default SearchBar;
