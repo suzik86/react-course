@@ -2,7 +2,7 @@ import { IResponse } from "../interfaces";
 
 const BASE_URL = "https://stapi.co/api/v2/rest";
 
-export const getBooks = async (searchTerm: string) => {
+export const getBooks = async (searchTerm: string, pageNumber: number = 0) => {
   try {
     const config = {
       method: "POST",
@@ -12,10 +12,13 @@ export const getBooks = async (searchTerm: string) => {
       },
       body: "title=" + searchTerm,
     };
-    const response = await fetch(`${BASE_URL}/book/search`, config);
+    const response = await fetch(
+      `${BASE_URL}/book/search?pageNumber=${pageNumber}&pageSize=10`,
+      config,
+    );
     const json = (await response.json()) as IResponse;
     if (response.ok) {
-      return json.books;
+      return { books: json.books || [], totalPages: json.page.totalPages || 0 };
     }
   } catch (error) {
     console.log(error);

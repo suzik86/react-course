@@ -15,18 +15,25 @@ const MainPage: React.FC<Props> = () => {
   const [fetchStatus, setFetchStatus] = React.useState<FetchStatusEnum>(
     FetchStatusEnum.loading,
   );
+  const [totalPages, setTotalPages] = React.useState<number>(0);
+  const [currentPage, setCurrentPage] = React.useState<number>(0);
 
   const getBooks = useCallback(async () => {
     await apiService
-      .getBooks(searchTerm.trim())
-      .then((list) => {
-        setBookList(list);
+      .getBooks(searchTerm.trim(), currentPage)
+      .then((data) => {
+        const { books, totalPages } = data as {
+          books: IBook[];
+          totalPages: number;
+        };
+        setBookList(books);
         setFetchStatus(FetchStatusEnum.done);
+        setTotalPages(totalPages);
       })
       .catch(() => {
         setFetchStatus(FetchStatusEnum.error);
       });
-  }, [searchTerm]);
+  }, [searchTerm, currentPage]);
 
   React.useEffect(() => {
     getBooks();
@@ -59,7 +66,12 @@ const MainPage: React.FC<Props> = () => {
         setSearchTerm={saveSearchTerm}
         getBooks={getBooks}
       />
-      <BooksList list={bookList} fetchStatus={fetchStatus} />
+      <BooksList
+        list={bookList}
+        fetchStatus={fetchStatus}
+        totalPages={totalPages}
+        setCurrentPage={setCurrentPage}
+      />
     </main>
   );
 };
