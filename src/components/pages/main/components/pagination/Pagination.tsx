@@ -1,4 +1,5 @@
 import React from "react";
+import "./Pagination.css";
 
 interface PaginationProps {
   currentPage: number;
@@ -14,18 +15,28 @@ const Pagination: React.FC<PaginationProps> = ({
   const handlePageChange = (page: number) => {
     onPageChange(page);
   };
+  const disablePrevious = currentPage === 0;
+  const disableNext = currentPage === totalPages - 1;
 
   return (
     <div className="pagination">
-      {Array.from({ length: totalPages }, (_, index) => (
-        <button
-          key={index}
-          className={`pagination__item ${currentPage === index + 1 ? "active" : ""}`}
-          onClick={() => handlePageChange(index + 1)}
-        >
-          {index + 1}
-        </button>
-      ))}
+      <button
+        className="previous-button"
+        onClick={() => handlePageChange(currentPage - 1)}
+        disabled={disablePrevious}
+      >
+        Previous
+      </button>
+      <span className="current-page-block">
+        <span className="current-page">{currentPage + 1}</span> of {totalPages}
+      </span>
+      <button
+        className="next-button"
+        onClick={() => handlePageChange(currentPage + 1)}
+        disabled={disableNext}
+      >
+        Next
+      </button>
     </div>
   );
 };

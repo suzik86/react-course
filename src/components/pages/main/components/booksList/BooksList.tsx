@@ -10,12 +10,14 @@ interface Props {
   fetchStatus: FetchStatusEnum;
   totalPages: number;
   setCurrentPage: (page: number) => void;
+  currentPage: number;
 }
 const BooksList: React.FC<Props> = ({
   list,
   fetchStatus,
   totalPages,
   setCurrentPage,
+  currentPage,
 }) => {
   if (fetchStatus === "loading") {
     return <div className="loader"></div>;
@@ -32,7 +34,7 @@ const BooksList: React.FC<Props> = ({
       </div>
       {list.length > 0 && (
         <Pagination
-          currentPage={0}
+          currentPage={currentPage}
           totalPages={totalPages}
           onPageChange={setCurrentPage}
         />

@@ -71,6 +71,7 @@ const MainPage: React.FC<Props> = () => {
         fetchStatus={fetchStatus}
         totalPages={totalPages}
         setCurrentPage={setCurrentPage}
+        currentPage={currentPage}
       />
     </main>
   );
