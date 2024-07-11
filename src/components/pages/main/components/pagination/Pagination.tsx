@@ -1,42 +1,33 @@
 import React from "react";
 import "./Pagination.css";
+import { Link } from "react-router-dom";
 
 interface PaginationProps {
   currentPage: number;
   totalPages: number;
-  onPageChange: (page: number) => void;
 }
 
-const Pagination: React.FC<PaginationProps> = ({
-  currentPage,
-  totalPages,
-  onPageChange,
-}) => {
-  const handlePageChange = (page: number) => {
-    onPageChange(page);
-  };
+const Pagination: React.FC<PaginationProps> = ({ currentPage, totalPages }) => {
   const disablePrevious = currentPage === 0;
   const disableNext = currentPage === totalPages - 1;
 
+  const currentUrl = window.location.pathname;
+
   return (
     <div className="pagination">
-      <button
-        className="previous-button"
-        onClick={() => handlePageChange(currentPage - 1)}
-        disabled={disablePrevious}
-      >
-        Previous
-      </button>
+      <Link to={`${currentUrl}?page=${currentPage - 1}`}>
+        <button className="previous-button" disabled={disablePrevious}>
+          Previous
+        </button>
+      </Link>
       <span className="current-page-block">
         <span className="current-page">{currentPage + 1}</span> of {totalPages}
       </span>
-      <button
-        className="next-button"
-        onClick={() => handlePageChange(currentPage + 1)}
-        disabled={disableNext}
-      >
-        Next
-      </button>
+      <Link to={`${currentUrl}?page=${currentPage + 1}`}>
+        <button className="next-button" disabled={disableNext}>
+          Next
+        </button>
+      </Link>
     </div>
   );
 };

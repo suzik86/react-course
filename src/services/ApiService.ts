@@ -26,4 +26,17 @@ export const getBooks = async (searchTerm: string, pageNumber: number = 0) => {
   return [];
 };
 
-export const apiService = { getBooks };
+export const getBookById = async (bookId: string) => {
+  try {
+    const response = await fetch(`${BASE_URL}/book?uid=${bookId}`);
+    const json = await response.json();
+    if (response.ok) {
+      return json;
+    }
+  } catch (error) {
+    console.log(error);
+  }
+  return {};
+};
+
+export const apiService = { getBooks, getBookById };

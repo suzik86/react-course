@@ -22,3 +22,16 @@
 .not-found {
   font-size: 20px;
 }
+
+.results-block {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.book-link {
+  margin: 15px;
+  width: 40%;
+  text-decoration: none;
+  color: black;
+}

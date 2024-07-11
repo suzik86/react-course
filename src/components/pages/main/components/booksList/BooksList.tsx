@@ -4,19 +4,18 @@ import { IBook } from "../../../../../interfaces";
 import Book from "../book/Book";
 import { FetchStatusEnum } from "../../../../../enums/FetchStatusEnum";
 import Pagination from "../pagination/Pagination";
+import { Link } from "react-router-dom";
 
-interface Props {
+export interface BooksListProps {
   list: IBook[];
   fetchStatus: FetchStatusEnum;
   totalPages: number;
-  setCurrentPage: (page: number) => void;
   currentPage: number;
 }
-const BooksList: React.FC<Props> = ({
+const BooksList: React.FC<BooksListProps> = ({
   list,
   fetchStatus,
   totalPages,
-  setCurrentPage,
   currentPage,
 }) => {
   if (fetchStatus === "loading") {
@@ -30,14 +29,17 @@ const BooksList: React.FC<Props> = ({
     <>
       <div>
         {list.length === 0 && <p className="not-found">No matching books</p>}
-        {list.length > 0 && list.map((book, i) => <Book book={book} key={i} />)}
+        <div className="results-block">
+          {list.length > 0 &&
+            list.map((book, i) => (
+              <Link to={`/book/${book.uid}`} key={i} className="book-link">
+                <Book book={book} key={i} />
+              </Link>
+            ))}
+        </div>
       </div>
       {list.length > 0 && (
-        <Pagination
-          currentPage={currentPage}
-          totalPages={totalPages}
-          onPageChange={setCurrentPage}
-        />
+        <Pagination currentPage={currentPage} totalPages={totalPages} />
       )}
     </>
   );

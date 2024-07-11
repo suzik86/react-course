@@ -1,13 +1,13 @@
 import React from "react";
 import "./SearchBar.css";
 
-interface Props {
+interface SearchBarProps {
   searchTerm: string;
   setSearchTerm: (searchTerm: string) => void;
   getBooks: () => void;
 }
 
-const SearchBar: React.FC<Props> = ({
+const SearchBar: React.FC<SearchBarProps> = ({
   searchTerm,
   setSearchTerm,
   getBooks,
