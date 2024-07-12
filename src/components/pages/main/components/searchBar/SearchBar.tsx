@@ -13,9 +13,11 @@ const SearchBar: React.FC<SearchBarProps> = ({
   getBooks,
 }) => {
   const [error, setError] = React.useState<Error | null>(null);
+  const [inputTerm, setInputTerm] = React.useState<string>(searchTerm);
 
   const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setSearchTerm(inputTerm);
     getBooks();
   };
 
@@ -36,8 +38,8 @@ const SearchBar: React.FC<SearchBarProps> = ({
         className="search-input"
         type="search"
         placeholder="Enter book title..."
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
+        value={inputTerm}
+        onChange={(e) => setInputTerm(e.target.value)}
       />
       <button className="search-btn" type="submit">
         Search

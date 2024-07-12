@@ -6,6 +6,7 @@ import SearchBar from "./components/searchBar/SearchBar";
 import { FetchStatusEnum } from "../../../enums/FetchStatusEnum";
 import { Outlet, useSearchParams } from "react-router-dom";
 import "./MainPage.css";
+import useLocalStorage from "../../../utils/useLocalStorage";
 
 interface MainPageProps {}
 
@@ -13,9 +14,8 @@ const MainPage: React.FC<MainPageProps> = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const page = searchParams.get("page");
 
-  const [searchTerm, setSearchTerm] = React.useState<string>(
-    localStorage.getItem("searchTerm") || "",
-  );
+  const [searchTerm, setSearchTerm] = useLocalStorage("searchTerm");
+
   const [bookList, setBookList] = React.useState<IBook[]>([]);
   const [fetchStatus, setFetchStatus] = React.useState<FetchStatusEnum>(
     FetchStatusEnum.loading,
@@ -53,22 +53,7 @@ const MainPage: React.FC<MainPageProps> = () => {
     getBooks();
   }, [getBooks]);
 
-  // React.useEffect(() => {
-  //   getBooks();
-  // }, []);
-
-  // const getBooks = async () => {
-  //   try {
-  //     const list = await apiService.getBooks(searchTerm.trim());
-  //     setBookList(list);
-  //     setFetchStatus(FetchStatusEnum.done);
-  //   } catch {
-  //     setFetchStatus(FetchStatusEnum.error);
-  //   }
-  // };
-
   const saveSearchTerm = (searchTerm: string) => {
-    localStorage.setItem("searchTerm", searchTerm);
     setSearchTerm(searchTerm);
     setSearchParams({ page: "0" });
   };
@@ -82,7 +67,7 @@ const MainPage: React.FC<MainPageProps> = () => {
         getBooks={getBooks}
       />
       <div className="main-block-wrapper">
-        <div>
+        <div className="book-list-wrapper">
           <BooksList
             list={bookList}
             fetchStatus={fetchStatus}

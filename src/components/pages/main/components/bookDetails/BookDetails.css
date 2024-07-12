@@ -1,4 +1,32 @@
-.book-details {
+.book-details-wrapper {
+  position: relative;
   width: 100%;
   border: 1px solid green;
+  border-radius: 8px;
+}
+
+.book-details {
+  padding: 20px;
+}
+
+.close-btn {
+  position: absolute;
+  top: -15px;
+  right: -15px;
+  padding: 5px;
+  cursor: pointer;
+  color: white;
+  width: 45px;
+  height: 45px;
+  border: 1px solid green;
+  border-radius: 50%;
+  background-color: green;
+  font-weight: 600;
+  font-size: 20px;
+}
+
+.book-title {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 10px;
 }

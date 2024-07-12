@@ -19,7 +19,11 @@ const BooksList: React.FC<BooksListProps> = ({
   currentPage,
 }) => {
   if (fetchStatus === "loading") {
-    return <div className="loader"></div>;
+    return (
+      <div className="loader-wrapper">
+        <div className="loader"></div>
+      </div>
+    );
   }
   if (fetchStatus === "error") {
     return <div>ERR!</div>;
@@ -32,7 +36,11 @@ const BooksList: React.FC<BooksListProps> = ({
         <div className="results-block">
           {list.length > 0 &&
             list.map((book, i) => (
-              <Link to={`/book/${book.uid}`} key={i} className="book-link">
+              <Link
+                to={`/book/${book.uid}?page=${currentPage}`}
+                key={i}
+                className="book-link"
+              >
                 <Book book={book} key={i} />
               </Link>
             ))}
