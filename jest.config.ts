@@ -11,4 +11,14 @@ export default {
     "^@app/(.*)$": "<rootDir>/$1",
     "\\.(css)$": "identity-obj-proxy",
   },
+  coverageThreshold: {
+    global: {
+      branches: 60,
+      functions: 80,
+      lines: 80,
+      statements: 80,
+    },
+  },
+  collectCoverage: false,
+  coverageReporters: ["text", "text-summary"],
 };

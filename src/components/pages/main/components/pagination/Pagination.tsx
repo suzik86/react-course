@@ -15,7 +15,10 @@ const Pagination: React.FC<PaginationProps> = ({ currentPage, totalPages }) => {
 
   return (
     <div className="pagination">
-      <Link to={`${currentUrl}?page=${currentPage - 1}`}>
+      <Link
+        to={`${currentUrl}?page=${currentPage - 1}`}
+        className="previous-button-link"
+      >
         <button className="previous-button" disabled={disablePrevious}>
           Previous
         </button>
