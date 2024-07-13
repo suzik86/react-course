@@ -23,7 +23,10 @@ const Pagination: React.FC<PaginationProps> = ({ currentPage, totalPages }) => {
       <span className="current-page-block">
         <span className="current-page">{currentPage + 1}</span> of {totalPages}
       </span>
-      <Link to={`${currentUrl}?page=${currentPage + 1}`}>
+      <Link
+        to={`${currentUrl}?page=${currentPage + 1}`}
+        className="next-button-link"
+      >
         <button className="next-button" disabled={disableNext}>
           Next
         </button>

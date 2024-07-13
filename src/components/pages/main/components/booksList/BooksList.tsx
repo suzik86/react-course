@@ -4,7 +4,6 @@ import { IBook } from "../../../../../interfaces";
 import Book from "../book/Book";
 import { FetchStatusEnum } from "../../../../../enums/FetchStatusEnum";
 import Pagination from "../pagination/Pagination";
-import { Link } from "react-router-dom";
 
 export interface BooksListProps {
   list: IBook[];
@@ -36,13 +35,7 @@ const BooksList: React.FC<BooksListProps> = ({
         <div className="results-block">
           {list.length > 0 &&
             list.map((book, i) => (
-              <Link
-                to={`/book/${book.uid}?page=${currentPage}`}
-                key={i}
-                className="book-link"
-              >
-                <Book book={book} key={i} />
-              </Link>
+              <Book book={book} key={i} currentPage={currentPage} />
             ))}
         </div>
       </div>

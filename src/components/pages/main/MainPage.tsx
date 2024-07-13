@@ -33,20 +33,19 @@ const MainPage: React.FC<MainPageProps> = () => {
 
   const getBooks = useCallback(async () => {
     setFetchStatus(FetchStatusEnum.loading);
-    await apiService
-      .getBooks(searchTerm.trim(), currentPage)
-      .then((data) => {
-        const { books, totalPages } = data as {
-          books: IBook[];
-          totalPages: number;
-        };
-        setBookList(books);
-        setFetchStatus(FetchStatusEnum.done);
-        setTotalPages(totalPages);
-      })
-      .catch(() => {
-        setFetchStatus(FetchStatusEnum.error);
-      });
+    try {
+      const data = await apiService.getBooks(searchTerm.trim(), currentPage);
+      const { books, totalPages } = data as {
+        books: IBook[];
+        totalPages: number;
+      };
+      setBookList(books);
+      setFetchStatus(FetchStatusEnum.done);
+      setTotalPages(totalPages);
+    } catch (error) {
+      setFetchStatus(FetchStatusEnum.error);
+      throw error;
+    }
   }, [searchTerm, currentPage]);
 
   React.useEffect(() => {

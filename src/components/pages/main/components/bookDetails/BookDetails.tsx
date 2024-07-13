@@ -24,15 +24,16 @@ const BookDetails: React.FC<BookDetailsProps> = () => {
 
   React.useEffect(() => {
     const getBookDetails = async () => {
-      await apiService
-        .getBookById(params?.bookId?.toString() || "")
-        .then((data) => {
-          setBookDetails(data as IBookDetails);
-          setFetchStatus(FetchStatusEnum.done);
-        })
-        .catch(() => {
-          setFetchStatus(FetchStatusEnum.error);
-        });
+      try {
+        const data = await apiService.getBookById(
+          params?.bookId?.toString() || "",
+        );
+        setBookDetails(data as IBookDetails);
+        setFetchStatus(FetchStatusEnum.done);
+      } catch (error) {
+        setFetchStatus(FetchStatusEnum.error);
+        throw error;
+      }
     };
     getBookDetails();
   }, [params?.bookId]);
@@ -55,7 +56,10 @@ const BookDetails: React.FC<BookDetailsProps> = () => {
           <div className="book-details">
             <div className="book-title">{bookDetails.book.title}</div>
             <div>
-              <p>Published year: {bookDetails.book.publishedYear}</p>
+              <p>
+                <label>Published year: </label>
+                {bookDetails.book.publishedYear}
+              </p>
               <p>Number of pages: {bookDetails.book.numberOfPages}</p>
             </div>
           </div>
