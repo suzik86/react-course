@@ -1,0 +1,10 @@
+.main-block-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.book-list-wrapper {
+  width: 100%;
+  min-width: 60%;
+}
