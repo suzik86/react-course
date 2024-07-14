@@ -30,23 +30,6 @@ describe("Pagination component", () => {
       </MemoryRouter>,
     );
     const nextButton = container.querySelector(".next-button") as HTMLElement;
-
-    expect(nextButton).toBeInTheDocument();
-    // fireEvent.click(nextButton as HTMLElement);
-    // await waitFor(() => {
-    //   // const currentUrl = window.location.pathname;
-    //   expect(mockSearchParam).toContain('page=2');
-    //   //expect(currentUrl).toBe("?page=2");
-    // });
-    // fireEvent.click(nextButton as HTMLElement);
-    // await waitFor(() => {
-    //   expect(window.location.search).toBe("?page=3");
-    // });
-    // const previousButton = container.querySelector(
-    //   ".previous-button"
-    // ) as HTMLElement;
-
-    // fireEvent.click(previousButton);
-    // expect(window.location.search).toBe("?page=2");
+    expect(nextButton).toBeInTheDocument();    
   });
 });

@@ -53,8 +53,7 @@ describe("SearchBar component", () => {
         ".search-input",
       ) as HTMLInputElement;
       expect(searchInput).toBeInTheDocument();
-      expect(searchInput.value).toBe("testSearchTerm");
-      //TODO Check that the component retrieves the value from the local storage
+      expect(searchInput.value).toBe("testSearchTerm");      
     });
   });
 });
