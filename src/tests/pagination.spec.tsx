@@ -30,6 +30,6 @@ describe("Pagination component", () => {
       </MemoryRouter>,
     );
     const nextButton = container.querySelector(".next-button") as HTMLElement;
-    expect(nextButton).toBeInTheDocument();    
+    expect(nextButton).toBeInTheDocument();
   });
 });

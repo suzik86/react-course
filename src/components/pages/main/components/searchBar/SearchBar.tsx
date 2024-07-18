@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useContext } from "react";
 import "./SearchBar.css";
+import { ThemeContext } from "../../../../../ThemeContext";
 
 interface SearchBarProps {
   searchTerm: string;
@@ -14,6 +15,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
 }) => {
   const [error, setError] = React.useState<Error | null>(null);
   const [inputTerm, setInputTerm] = React.useState<string>(searchTerm);
+  const theme = useContext(ThemeContext);
 
   const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -35,7 +37,11 @@ const SearchBar: React.FC<SearchBarProps> = ({
   return (
     <form onSubmit={handleSearch} className="search-bar">
       <input
-        className="search-input"
+        className={
+          theme === "light"
+            ? "search-input light-search-input"
+            : "search-input dark-search-input"
+        }
         type="search"
         placeholder="Enter book title..."
         value={inputTerm}

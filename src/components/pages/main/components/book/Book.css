@@ -7,6 +7,15 @@
   border-radius: 10px;
 }
 
-.book-title {
+.light-book-title,
+.dark-book-title {
   font-weight: 600;
+}
+
+.light-book-title {
+  color: black;
+}
+
+.dark-book-title {
+  color: white;
 }

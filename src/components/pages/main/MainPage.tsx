@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import BooksList from "./components/booksList/BooksList";
 import { IBook } from "../../../interfaces";
 import { apiService } from "../../../services/ApiService";
@@ -7,21 +7,23 @@ import { FetchStatusEnum } from "../../../enums/FetchStatusEnum";
 import { Outlet, useSearchParams } from "react-router-dom";
 import "./MainPage.css";
 import useLocalStorage from "../../../utils/useLocalStorage";
+import { ThemeContext } from "../../../ThemeContext";
 
 interface MainPageProps {}
 
 const MainPage: React.FC<MainPageProps> = () => {
+  const [theme, setTheme] = useState("light");
   const [searchParams, setSearchParams] = useSearchParams();
   const page = searchParams.get("page");
 
   const [searchTerm, setSearchTerm] = useLocalStorage("searchTerm");
 
-  const [bookList, setBookList] = React.useState<IBook[]>([]);
-  const [fetchStatus, setFetchStatus] = React.useState<FetchStatusEnum>(
+  const [bookList, setBookList] = useState<IBook[]>([]);
+  const [fetchStatus, setFetchStatus] = useState<FetchStatusEnum>(
     FetchStatusEnum.loading,
   );
-  const [totalPages, setTotalPages] = React.useState<number>(0);
-  const [currentPage, setCurrentPage] = React.useState<number>(0);
+  const [totalPages, setTotalPages] = useState<number>(0);
+  const [currentPage, setCurrentPage] = useState<number>(0);
 
   useEffect(() => {
     if (page) {
@@ -58,25 +60,35 @@ const MainPage: React.FC<MainPageProps> = () => {
   };
 
   return (
-    <main className="main">
-      <h1>Book Library</h1>
-      <SearchBar
-        searchTerm={searchTerm}
-        setSearchTerm={saveSearchTerm}
-        getBooks={getBooks}
-      />
-      <div className="main-block-wrapper">
-        <div className="book-list-wrapper">
-          <BooksList
-            list={bookList}
-            fetchStatus={fetchStatus}
-            totalPages={totalPages}
-            currentPage={currentPage}
-          />
+    <ThemeContext.Provider value={theme}>
+      <main
+        className={theme === "light" ? "main light-mode" : "main dark-mode"}
+      >
+        <button
+          className="change-theme-btn"
+          onClick={() => setTheme(theme === "light" ? "dark" : "light")}
+        >
+          Change theme
+        </button>
+        <h1>Book Library</h1>
+        <SearchBar
+          searchTerm={searchTerm}
+          setSearchTerm={saveSearchTerm}
+          getBooks={getBooks}
+        />
+        <div className="main-block-wrapper">
+          <div className="book-list-wrapper">
+            <BooksList
+              list={bookList}
+              fetchStatus={fetchStatus}
+              totalPages={totalPages}
+              currentPage={currentPage}
+            />
+          </div>
+          <Outlet />
         </div>
-        <Outlet />
-      </div>
-    </main>
+      </main>
+    </ThemeContext.Provider>
   );
 };
 

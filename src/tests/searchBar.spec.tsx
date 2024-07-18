@@ -53,7 +53,7 @@ describe("SearchBar component", () => {
         ".search-input",
       ) as HTMLInputElement;
       expect(searchInput).toBeInTheDocument();
-      expect(searchInput.value).toBe("testSearchTerm");      
+      expect(searchInput.value).toBe("testSearchTerm");
     });
   });
 });
