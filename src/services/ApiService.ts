@@ -1,42 +1,41 @@
-import { IResponse } from "../interfaces";
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { IBook, IResponse } from "../interfaces";
 
 const BASE_URL = "https://stapi.co/api/v2/rest";
 
-export const getBooks = async (searchTerm: string, pageNumber: number = 0) => {
-  try {
-    const config = {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-      body: "title=" + searchTerm,
-    };
-    const response = await fetch(
-      `${BASE_URL}/book/search?pageNumber=${pageNumber}&pageSize=10`,
-      config,
-    );
-    const json = (await response.json()) as IResponse;
-    if (response.ok) {
-      return { books: json.books || [], totalPages: json.page.totalPages || 0 };
-    }
-  } catch (error) {
-    console.log(error);
-  }
-  return [];
-};
+export const api = createApi({
+  reducerPath: "api",
+  baseQuery: fetchBaseQuery({ baseUrl: BASE_URL }),
+  tagTypes: ["Books"],
+  endpoints: (builder) => ({
+    getBooks: builder.query<IResponse, { searchTerm: string; page?: number }>({
+      query: ({ searchTerm, page = 0 }) => ({
+        url: `/book/search?pageNumber=${page}&pageSize=10`,
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: `title=${searchTerm}`,
+      }),
+      transformResponse: (response: IResponse) => ({
+        books: response.books || [],
+        totalPages: response.page.totalPages || 0,
+        page: response.page,
+        sort: response.sort,
+      }),
+      providesTags: ["Books"],
+    }),
+    getBookById: builder.query<IBook, string>({
+      query: (bookId) => `/book?uid=${bookId}`,
+    }),
+  }),
+});
 
-export const getBookById = async (bookId: string) => {
-  try {
-    const response = await fetch(`${BASE_URL}/book?uid=${bookId}`);
-    const json = await response.json();
-    if (response.ok) {
-      return json;
-    }
-  } catch (error) {
-    console.log(error);
-  }
-  return {};
-};
-
-export const apiService = { getBooks, getBookById };
+export const {
+  useGetBooksQuery,
+  useGetBookByIdQuery,
+}: {
+  useGetBooksQuery: CallableFunction;
+  useGetBookByIdQuery: CallableFunction;
+} = api;

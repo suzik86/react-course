@@ -5,14 +5,9 @@ import { ThemeContext } from "../../../../../ThemeContext";
 interface SearchBarProps {
   searchTerm: string;
   setSearchTerm: (searchTerm: string) => void;
-  getBooks: () => void;
 }
 
-const SearchBar: React.FC<SearchBarProps> = ({
-  searchTerm,
-  setSearchTerm,
-  getBooks,
-}) => {
+const SearchBar: React.FC<SearchBarProps> = ({ searchTerm, setSearchTerm }) => {
   const [error, setError] = React.useState<Error | null>(null);
   const [inputTerm, setInputTerm] = React.useState<string>(searchTerm);
   const theme = useContext(ThemeContext);
@@ -20,7 +15,6 @@ const SearchBar: React.FC<SearchBarProps> = ({
   const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setSearchTerm(inputTerm);
-    getBooks();
   };
 
   const throwError = () => {

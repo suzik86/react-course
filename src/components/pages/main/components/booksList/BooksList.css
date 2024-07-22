@@ -37,8 +37,26 @@
 }
 
 .book-link {
-  margin: 15px;
-  width: 40%;
+  width: 80%;
   text-decoration: none;
   color: black;
+}
+
+.book-card-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 15px;
+  width: 40%;
+}
+
+.selected-books-block {
+  display: flex;
+  justify-content: center;
+  align-items: baseline;
+  gap: 20px;
+}
+
+.book-checkbox {
+  margin-right: 20px;
+  width: 20px;
 }
