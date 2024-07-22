@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React from "react";
 import "./BooksList.css";
 import { IBook } from "../../../../../interfaces";
 import Book from "../book/Book";
@@ -38,20 +38,10 @@ const BooksList: React.FC<BooksListProps> = ({
     } else {
       dispatch(unselectBook(book));
     }
-  };
-
-  const checkboxesRef = useRef<HTMLInputElement>(null);
-
-  const handleCheckAll = () => {
-    console.log(checkboxesRef.current);
-
-    // checkboxesRef.current.forEach((checkbox) => {
-    //   checkbox.checked = false;
-    // });
-  };
+  };  
+  
   const removeSelectedBooks = () => {
-    dispatch(unselectAllBooks());
-    handleCheckAll();
+    dispatch(unselectAllBooks());    
   };
 
   if (isLoading) {
@@ -88,7 +78,7 @@ const BooksList: React.FC<BooksListProps> = ({
             list.map((book, i) => (
               <div className="book-card-wrapper" key={i}>
                 <input
-                  ref={checkboxesRef}
+                  checked={selectedBooks.includes(book)}
                   type="checkbox"
                   className="book-checkbox"
                   onChange={(e) => handleClick(book, e)}
