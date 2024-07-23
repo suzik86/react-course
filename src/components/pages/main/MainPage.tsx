@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useState } from "react";
 import BooksList from "./components/booksList/BooksList";
 import { useGetBooksQuery } from "../../../services/ApiService";
 import SearchBar from "./components/searchBar/SearchBar";
@@ -6,27 +6,20 @@ import { Outlet, useSearchParams } from "react-router-dom";
 import "./MainPage.css";
 import useLocalStorage from "../../../utils/useLocalStorage";
 import { ThemeContext } from "../../../ThemeContext";
+import { LocalStorageKeysEnum } from "../../../enums";
 
-interface MainPageProps {}
-
-const MainPage: React.FC<MainPageProps> = () => {
+const MainPage = () => {
   const [theme, setTheme] = useState("light");
   const [searchParams, setSearchParams] = useSearchParams();
-  const page = searchParams.get("page");
-  const [searchTerm, setSearchTerm] = useLocalStorage("searchTerm");
-  const [currentPage, setCurrentPage] = useState<number>(0);
+  const page = Number(searchParams.get("page")) || 0;
+  const [searchTerm, setSearchTerm] = useLocalStorage(
+    LocalStorageKeysEnum.searchTerm,
+  );
+
   const { data, isLoading, isError } = useGetBooksQuery({
     searchTerm: searchTerm,
     page: page,
   });
-
-  useEffect(() => {
-    if (page) {
-      setCurrentPage(parseInt(page));
-    } else {
-      setCurrentPage(0);
-    }
-  }, [page]);
 
   const saveSearchTerm = (searchTerm: string) => {
     setSearchTerm(searchTerm);
@@ -53,7 +46,7 @@ const MainPage: React.FC<MainPageProps> = () => {
               isLoading={isLoading}
               isError={isError}
               totalPages={data?.totalPages}
-              currentPage={currentPage}
+              currentPage={page}
             />
           </div>
           <Outlet />

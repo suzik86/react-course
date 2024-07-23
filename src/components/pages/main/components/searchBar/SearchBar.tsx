@@ -1,15 +1,15 @@
-import React, { useContext } from "react";
+import { FC, useContext, useEffect, useState } from "react";
 import "./SearchBar.css";
 import { ThemeContext } from "../../../../../ThemeContext";
 
-interface SearchBarProps {
+type Props = {
   searchTerm: string;
   setSearchTerm: (searchTerm: string) => void;
-}
+};
 
-const SearchBar: React.FC<SearchBarProps> = ({ searchTerm, setSearchTerm }) => {
-  const [error, setError] = React.useState<Error | null>(null);
-  const [inputTerm, setInputTerm] = React.useState<string>(searchTerm);
+const SearchBar: FC<Props> = ({ searchTerm, setSearchTerm }) => {
+  const [error, setError] = useState<Error | null>(null);
+  const [inputTerm, setInputTerm] = useState<string>(searchTerm);
   const theme = useContext(ThemeContext);
 
   const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
@@ -22,7 +22,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ searchTerm, setSearchTerm }) => {
     setError(new Error("Simulated error."));
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (error) {
       throw new Error("Simulated error.");
     }

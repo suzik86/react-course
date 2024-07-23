@@ -1,13 +1,13 @@
-import React from "react";
+import { FC } from "react";
 import "./Pagination.css";
 import { Link } from "react-router-dom";
 
-interface PaginationProps {
+type Props = {
   currentPage: number;
   totalPages: number;
-}
+};
 
-const Pagination: React.FC<PaginationProps> = ({ currentPage, totalPages }) => {
+const Pagination: FC<Props> = ({ currentPage, totalPages }) => {
   const disablePrevious = currentPage === 0;
   const disableNext = currentPage === totalPages - 1;
 

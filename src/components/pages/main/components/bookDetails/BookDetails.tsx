@@ -1,12 +1,10 @@
-import React, { useRef } from "react";
+import { useRef } from "react";
 import "./BookDetails.css";
 import { useNavigate, useParams } from "react-router-dom";
 import useOutsideAlerter from "../../../../../utils/useOutsideAlerter";
 import { useGetBookByIdQuery } from "../../../../../services/ApiService";
 
-interface BookDetailsProps {}
-
-const BookDetails: React.FC<BookDetailsProps> = () => {
+const BookDetails = () => {
   const params = useParams<{ bookId: string }>();
 
   const { data, isLoading, isError, isSuccess } = useGetBookByIdQuery(
@@ -29,7 +27,7 @@ const BookDetails: React.FC<BookDetailsProps> = () => {
 
   return (
     <>
-      {isSuccess && Object.keys(data).length !== 0 && (
+      {isSuccess && Object.keys(data).length && (
         <div className="book-details-wrapper" ref={wrapperRef}>
           <div className="book-details">
             <div className="book-title">{data.book.title}</div>

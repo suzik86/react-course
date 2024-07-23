@@ -1,4 +1,4 @@
-import React from "react";
+import { FC } from "react";
 import "./BooksList.css";
 import { IBook } from "../../../../../interfaces";
 import Book from "../book/Book";
@@ -11,15 +11,15 @@ import {
 } from "../../../../../reducers/selectedBooksReducer";
 import { RootState } from "../../../../../store";
 
-export interface BooksListProps {
+type Props = {
   list: IBook[];
   totalPages: number;
   currentPage: number;
   isLoading: boolean;
   isError?: boolean;
-}
+};
 
-const BooksList: React.FC<BooksListProps> = ({
+const BooksList: FC<Props> = ({
   list,
   totalPages,
   currentPage,
@@ -56,7 +56,7 @@ const BooksList: React.FC<BooksListProps> = ({
       "data:text/csv;charset=utf-8," +
       selectedBooksData
         .map((book, i) => {
-          const bookInfo = Object.values(book).join(",");
+          const bookInfo = Object.values(book).join(", ");
           return `${(i + 1).toString()}. ${bookInfo}`;
         })
         .join("\n");
@@ -83,7 +83,7 @@ const BooksList: React.FC<BooksListProps> = ({
   return (
     <>
       <div>
-        {list.length === 0 && <p className="not-found">No matching books</p>}
+        {!list.length && <p className="not-found">No matching books</p>}
         {selectedBooks.length > 0 && (
           <div className="selected-books-block">
             {selectedBooks.length === 1 && (
