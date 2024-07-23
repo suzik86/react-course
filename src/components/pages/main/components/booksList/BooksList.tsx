@@ -11,7 +11,6 @@ import {
 } from "../../../../../reducers/selectedBooksReducer";
 import { RootState } from "../../../../../store";
 
-
 export interface BooksListProps {
   list: IBook[];
   totalPages: number;
@@ -38,10 +37,36 @@ const BooksList: React.FC<BooksListProps> = ({
     } else {
       dispatch(unselectBook(book));
     }
-  };  
-  
+  };
+
   const removeSelectedBooks = () => {
-    dispatch(unselectAllBooks());    
+    dispatch(unselectAllBooks());
+  };
+
+  const handleDownload = () => {
+    const selectedBooksData = selectedBooks.map((book) => ({
+      title: book.title,
+      publishedYear: book.publishedYear
+        ? `was published in ${book.publishedYear}`
+        : "",
+      numberOfPages: book.numberOfPages ? `${book.numberOfPages} pages` : "",
+    }));
+
+    const csvContent =
+      "data:text/csv;charset=utf-8," +
+      selectedBooksData
+        .map((book, i) => {
+          const bookInfo = Object.values(book).join(",");
+          return `${(i + 1).toString()}. ${bookInfo}`;
+        })
+        .join("\n");
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", `${selectedBooks.length}_books.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   };
 
   if (isLoading) {
@@ -70,7 +95,7 @@ const BooksList: React.FC<BooksListProps> = ({
             <button className="remove-selected" onClick={removeSelectedBooks}>
               Unselect all
             </button>
-            <button>Download</button>
+            <button onClick={handleDownload}>Download</button>
           </div>
         )}
         <div className="results-block">
