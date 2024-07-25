@@ -21,10 +21,10 @@ describe("SearchBar component", () => {
         setSearchTerm={(term) => {
           localStorageMock.setItem("searchTerm", term);
         }}
-      />
+      />,
     );
     const searchInput = document.querySelector(
-      ".search-input"
+      ".search-input",
     ) as HTMLInputElement;
     const searchButton = screen.getByText("Search");
     expect(searchButton).toBeInTheDocument();
@@ -41,7 +41,7 @@ describe("SearchBar component", () => {
       Promise.resolve({
         json: () => Promise.resolve(BookListMock),
         ok: true,
-      })
+      }),
     ) as jest.Mock;
     localStorageMock.setItem("searchTerm", JSON.stringify("testSearchTerm"));
 
@@ -50,11 +50,11 @@ describe("SearchBar component", () => {
         <MemoryRouter>
           <MainPage />
         </MemoryRouter>
-      </Provider>
+      </Provider>,
     );
     waitFor(() => {
       const searchInput = document.querySelector(
-        ".search-input"
+        ".search-input",
       ) as HTMLInputElement;
       expect(searchInput).toBeInTheDocument();
       expect(searchInput.value).toBe("testSearchTerm");

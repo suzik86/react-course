@@ -6,6 +6,7 @@ import { useGetBookByIdQuery } from "../../../../../services/ApiService";
 import { useDispatch, useSelector } from "react-redux";
 import { selectedItemDetails } from "../../../../../store/slices/selectedItemDetailsSlice";
 import { RootState } from "../../../../../store/store";
+import Loader from "../loader/Loader";
 
 const BookDetails = () => {
   const params = useParams<{ bookId: string }>();
@@ -29,11 +30,7 @@ const BookDetails = () => {
   useOutsideAlerter(wrapperRef, () => navigate(-1));
 
   if (isLoading) {
-    return (
-      <div className="loader-wrapper">
-        <div className="loader"></div>
-      </div>
-    );
+    return <Loader />;
   }
   if (isError) {
     return <div>ERR!</div>;

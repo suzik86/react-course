@@ -9,9 +9,9 @@ import "@testing-library/jest-dom";
 
 describe("BookList component", () => {
   // test("Verify that the component renders the specified number of cards", () => {
-  //   const props = {      
+  //   const props = {
   //     totalPages: 2,
-  //     currentPage: 0,     
+  //     currentPage: 0,
   //   };
   //   const { container } = render(
   //     <Provider store={store}>
