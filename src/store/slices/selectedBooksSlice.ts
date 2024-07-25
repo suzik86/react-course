@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { IBook } from "../interfaces";
+import { IBook } from "../../interfaces";
 
 export interface SelectedBookInitialState {
   selectedBooks: IBook[];

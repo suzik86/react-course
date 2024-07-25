@@ -4,31 +4,26 @@ import { IBook } from "../../../../../interfaces";
 import Book from "../book/Book";
 import Pagination from "../pagination/Pagination";
 import { useDispatch, useSelector } from "react-redux";
-import { unselectAllBooks } from "../../../../../reducers/selectedBooksReducer";
+import { unselectAllBooks } from "../../../../../store/slices/selectedBooksSlice";
 import {
   selectBook,
   unselectBook,
-} from "../../../../../reducers/selectedBooksReducer";
-import { RootState } from "../../../../../store";
+} from "../../../../../store/slices/selectedBooksSlice";
+import { RootState } from "../../../../../store/store";
 
 type Props = {
-  list: IBook[];
   totalPages: number;
   currentPage: number;
-  isLoading: boolean;
-  isError?: boolean;
 };
 
-const BooksList: FC<Props> = ({
-  list,
-  totalPages,
-  currentPage,
-  isLoading,
-  isError,
-}) => {
+const BooksList: FC<Props> = ({ totalPages, currentPage }) => {
+  const list = useSelector(
+    (state: RootState) => state.currentPageItems.currentPageItems,
+  );
   const selectedBooks = useSelector(
     (state: RootState) => state.selectedBooks.selectedBooks,
   );
+
   const dispatch = useDispatch();
 
   const handleClick = (book: IBook, e: React.ChangeEvent<HTMLInputElement>) => {
@@ -51,34 +46,20 @@ const BooksList: FC<Props> = ({
         : "",
       numberOfPages: book.numberOfPages ? `${book.numberOfPages} pages` : "",
     }));
-
-    const csvContent =
-      "data:text/csv;charset=utf-8," +
-      selectedBooksData
-        .map((book, i) => {
-          const bookInfo = Object.values(book).join(", ");
-          return `${(i + 1).toString()}. ${bookInfo}`;
-        })
-        .join("\n");
+    const csvContent = `data:text/csv;charset=utf-8,${selectedBooksData
+      .map((book, i) => {
+        const bookInfo = Object.values(book).join(", ");
+        return `${(i + 1).toString()}. ${bookInfo}`;
+      })
+      .join("\n")}`;
     const encodedUri = encodeURI(csvContent);
     const link = document.createElement("a");
-    link.setAttribute("href", encodedUri);
-    link.setAttribute("download", `${selectedBooks.length}_books.csv`);
+    link.href = encodedUri;
+    link.download = `${selectedBooks.length}_books.csv`;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
   };
-
-  if (isLoading) {
-    return (
-      <div className="loader-wrapper">
-        <div className="loader"></div>
-      </div>
-    );
-  }
-  if (isError) {
-    return <div>ERR!</div>;
-  }
 
   return (
     <>

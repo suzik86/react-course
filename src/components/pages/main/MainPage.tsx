@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import BooksList from "./components/booksList/BooksList";
 import { useGetBooksQuery } from "../../../services/ApiService";
 import SearchBar from "./components/searchBar/SearchBar";
@@ -7,6 +7,8 @@ import "./MainPage.css";
 import useLocalStorage from "../../../utils/useLocalStorage";
 import { ThemeContext } from "../../../ThemeContext";
 import { LocalStorageKeysEnum } from "../../../enums";
+import { useDispatch } from "react-redux";
+import { currentPageItems } from "../../../store/slices/currentPageSlice";
 
 const MainPage = () => {
   const [theme, setTheme] = useState("light");
@@ -26,6 +28,13 @@ const MainPage = () => {
     setSearchParams({ page: "0" });
   };
 
+  const dispatch = useDispatch();
+  useEffect(() => {
+    if (data && data.books) {
+      dispatch(currentPageItems(data.books));
+    }
+  }, [data, dispatch, page]);
+
   return (
     <ThemeContext.Provider value={theme}>
       <main
@@ -41,13 +50,15 @@ const MainPage = () => {
         <SearchBar searchTerm={searchTerm} setSearchTerm={saveSearchTerm} />
         <div className="main-block-wrapper">
           <div className="book-list-wrapper">
-            <BooksList
-              list={data?.books}
-              isLoading={isLoading}
-              isError={isError}
-              totalPages={data?.totalPages}
-              currentPage={page}
-            />
+            {isLoading && (
+              <div className="loader-wrapper">
+                <div className="loader"></div>
+              </div>
+            )}
+            {isError && <div>ERR!</div>}
+            {data && data.books && (
+              <BooksList totalPages={data?.totalPages} currentPage={page} />
+            )}
           </div>
           <Outlet />
         </div>

@@ -1,12 +1,16 @@
 import { configureStore } from "@reduxjs/toolkit";
-import selectedBooksReducer from "./reducers/selectedBooksReducer";
-import { api } from "./services/ApiService";
 import { setupListeners } from "@reduxjs/toolkit/query";
+import { api } from "../services/ApiService";
+import currentPageItemsReducer from "./slices/currentPageSlice";
+import selectedBooksReducer from "./slices/selectedBooksSlice";
+import selectedItemDetailsReducer from "./slices/selectedItemDetailsSlice";
 
 export const store = configureStore({
   reducer: {
     [api.reducerPath]: api.reducer,
     selectedBooks: selectedBooksReducer,
+    currentPageItems: currentPageItemsReducer,
+    selectedItemDetails: selectedItemDetailsReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(api.middleware),

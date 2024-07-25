@@ -1,8 +1,11 @@
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import "./BookDetails.css";
 import { useNavigate, useParams } from "react-router-dom";
 import useOutsideAlerter from "../../../../../utils/useOutsideAlerter";
 import { useGetBookByIdQuery } from "../../../../../services/ApiService";
+import { useDispatch, useSelector } from "react-redux";
+import { selectedItemDetails } from "../../../../../store/slices/selectedItemDetailsSlice";
+import { RootState } from "../../../../../store/store";
 
 const BookDetails = () => {
   const params = useParams<{ bookId: string }>();
@@ -10,6 +13,17 @@ const BookDetails = () => {
   const { data, isLoading, isError, isSuccess } = useGetBookByIdQuery(
     params?.bookId,
   );
+  const dispatch = useDispatch();
+  useEffect(() => {
+    if (data) {
+      dispatch(selectedItemDetails(data));
+    }
+  }, [data, dispatch]);
+
+  const bookDetails = useSelector(
+    (state: RootState) => state.selectedItemDetails.details,
+  );
+
   const navigate = useNavigate();
   const wrapperRef = useRef(null);
   useOutsideAlerter(wrapperRef, () => navigate(-1));
@@ -27,16 +41,16 @@ const BookDetails = () => {
 
   return (
     <>
-      {isSuccess && Object.keys(data).length && (
+      {isSuccess && Object.keys(bookDetails).length && (
         <div className="book-details-wrapper" ref={wrapperRef}>
           <div className="book-details">
-            <div className="book-title">{data.book.title}</div>
+            <div className="book-title">{bookDetails.book.title}</div>
             <div>
               <p>
                 <label>Published year: </label>
-                {data.book.publishedYear}
+                {bookDetails.book.publishedYear}
               </p>
-              <p>Number of pages: {data.book.numberOfPages}</p>
+              <p>Number of pages: {bookDetails.book.numberOfPages}</p>
             </div>
           </div>
           <button className="close-btn" onClick={() => navigate(-1)}>

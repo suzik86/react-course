@@ -1,6 +1,6 @@
 import { IBook } from "../../interfaces";
 
-export const bookMock: IBook = {
+export const BookMock: IBook = {
   uid: "1",
   title: "Title",
   publishedYear: 2021,
