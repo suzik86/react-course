@@ -1,8 +1,8 @@
 import { FC, useContext } from "react";
-import { IBook } from "../../../../../interfaces";
-import "./Book.css";
 import { Link } from "react-router-dom";
-import { ThemeContext } from "../../../../../ThemeContext";
+import { ThemeContext } from "../../ThemeContext";
+import { IBook } from "../../interfaces";
+import "./Book.css";
 
 type Props = {
   book: IBook;

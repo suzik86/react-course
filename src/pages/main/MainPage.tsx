@@ -1,15 +1,15 @@
 import { useEffect, useState } from "react";
-import BooksList from "./components/booksList/BooksList";
-import { useGetBooksQuery } from "../../../services/ApiService";
-import SearchBar from "./components/searchBar/SearchBar";
-import { Outlet, useSearchParams } from "react-router-dom";
-import "./MainPage.css";
-import useLocalStorage from "../../../utils/useLocalStorage";
-import { ThemeContext } from "../../../ThemeContext";
-import { LocalStorageKeysEnum } from "../../../enums";
 import { useDispatch } from "react-redux";
-import { currentPageItems } from "../../../store/slices/currentPageSlice";
-import Loader from "./components/loader/Loader";
+import { Outlet, useSearchParams } from "react-router-dom";
+import { ThemeContext } from "../../ThemeContext";
+import BooksList from "../../components/booksList/BooksList";
+import Loader from "../../components/loader/Loader";
+import SearchBar from "../../components/searchBar/SearchBar";
+import { LocalStorageKeysEnum } from "../../enums";
+import { useGetBooksQuery } from "../../services/ApiService";
+import { currentPageItems } from "../../store/slices/currentPageSlice";
+import useLocalStorage from "../../utils/useLocalStorage";
+import "./MainPage.css";
 
 const MainPage = () => {
   const [theme, setTheme] = useState("light");

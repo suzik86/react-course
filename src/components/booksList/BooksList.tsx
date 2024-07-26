@@ -1,15 +1,15 @@
 import { FC } from "react";
 import "./BooksList.css";
-import { IBook } from "../../../../../interfaces";
+import { IBook } from "../../interfaces";
 import Book from "../book/Book";
 import Pagination from "../pagination/Pagination";
 import { useDispatch, useSelector } from "react-redux";
-import { unselectAllBooks } from "../../../../../store/slices/selectedBooksSlice";
+import { unselectAllBooks } from "../../store/slices/selectedBooksSlice";
 import {
   selectBook,
   unselectBook,
-} from "../../../../../store/slices/selectedBooksSlice";
-import { RootState } from "../../../../../store/store";
+} from "../../store/slices/selectedBooksSlice";
+import { RootState } from "../../store/store";
 
 type Props = {
   totalPages: number;

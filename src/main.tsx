@@ -3,7 +3,9 @@ import App from "./App.tsx";
 import "./index.css";
 import ErrorBoundary from "./components/ErrorBoundary.tsx";
 import { Provider } from "react-redux";
-import { store } from "./store/store.ts";
+import { setupStore } from "./store/store.ts";
+
+const store = setupStore();
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <ErrorBoundary fallback={<p className="error-msg">Something went wrong</p>}>

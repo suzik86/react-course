@@ -3,11 +3,12 @@ import { renderHook, waitFor } from "@testing-library/react";
 import { useGetBookByIdQuery, useGetBooksQuery } from "../services/ApiService";
 import { Provider } from "react-redux";
 import { ReactNode } from "react";
-import { store } from "../store/store";
 import fetchMock from "jest-fetch-mock";
 import { BookListMock } from "./mocks/BookListMock";
 import { BookDetailsMock } from "./mocks/BookDetailsMock";
+import { AppStore, setupStore } from "../store/store";
 
+let store: AppStore;
 fetchMock.enableMocks();
 
 function Wrapper(props: { children: ReactNode }) {
@@ -16,6 +17,7 @@ function Wrapper(props: { children: ReactNode }) {
 
 beforeEach(() => {
   fetchMock.resetMocks();
+  store = setupStore();
 });
 
 describe("ApiService", () => {

@@ -1,13 +1,13 @@
-import "whatwg-fetch";
 import "@testing-library/jest-dom";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { Provider } from "react-redux";
 import { MemoryRouter } from "react-router-dom";
-import SearchBar from "../components/pages/main/components/searchBar/SearchBar";
-import MainPage from "../components/pages/main/MainPage";
+import "whatwg-fetch";
+import SearchBar from "../components/searchBar/SearchBar";
+import MainPage from "../pages/main/MainPage";
 import { BookListMock } from "./mocks/BookListMock";
 import { localStorageMock } from "./mocks/LocalStorageMock";
-import { store } from "../store/store";
-import { Provider } from "react-redux";
+import { setupStore } from "../store/store";
 
 describe("SearchBar component", () => {
   beforeEach(() => {
@@ -44,7 +44,7 @@ describe("SearchBar component", () => {
       }),
     ) as jest.Mock;
     localStorageMock.setItem("searchTerm", JSON.stringify("testSearchTerm"));
-
+    const store = setupStore();
     render(
       <Provider store={store}>
         <MemoryRouter>

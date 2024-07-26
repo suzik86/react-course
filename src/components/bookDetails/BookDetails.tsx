@@ -1,12 +1,12 @@
 import { useEffect, useRef } from "react";
-import "./BookDetails.css";
-import { useNavigate, useParams } from "react-router-dom";
-import useOutsideAlerter from "../../../../../utils/useOutsideAlerter";
-import { useGetBookByIdQuery } from "../../../../../services/ApiService";
 import { useDispatch, useSelector } from "react-redux";
-import { selectedItemDetails } from "../../../../../store/slices/selectedItemDetailsSlice";
-import { RootState } from "../../../../../store/store";
+import { useNavigate, useParams } from "react-router-dom";
+import { useGetBookByIdQuery } from "../../services/ApiService";
+import { selectedItemDetails } from "../../store/slices/selectedItemDetailsSlice";
+import { RootState } from "../../store/store";
+import useOutsideAlerter from "../../utils/useOutsideAlerter";
 import Loader from "../loader/Loader";
+import "./BookDetails.css";
 
 const BookDetails = () => {
   const params = useParams<{ bookId: string }>();
@@ -14,6 +14,7 @@ const BookDetails = () => {
   const { data, isLoading, isError, isSuccess } = useGetBookByIdQuery(
     params?.bookId,
   );
+
   const dispatch = useDispatch();
   useEffect(() => {
     if (data) {

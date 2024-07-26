@@ -1,8 +1,8 @@
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import "./App.css";
-import MainPage from "./components/pages/main/MainPage";
-import NotFoundPage from "./components/pages/notFoundPage/NotFoundPage";
-import BookDetails from "./components/pages/main/components/bookDetails/BookDetails";
+import BookDetails from "./components/bookDetails/BookDetails";
+import MainPage from "./pages/main/MainPage";
+import NotFoundPage from "./pages/notFoundPage/NotFoundPage";
 
 function App() {
   return (

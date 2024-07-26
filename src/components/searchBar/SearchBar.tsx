@@ -1,6 +1,6 @@
 import { FC, useContext, useEffect, useState } from "react";
+import { ThemeContext } from "../../ThemeContext";
 import "./SearchBar.css";
-import { ThemeContext } from "../../../../../ThemeContext";
 
 type Props = {
   searchTerm: string;
