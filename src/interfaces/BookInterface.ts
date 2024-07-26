@@ -3,8 +3,8 @@ export interface IBook {
   title: string;
   publishedYear: number;
   publishedMonth: number;
-  publishedDay: number;
-  numberOfPages: number;
+  publishedDay: number | null;
+  numberOfPages: number | null;
   stardateFrom: number | null;
   stardateTo: number | null;
   yearFrom: number | null;

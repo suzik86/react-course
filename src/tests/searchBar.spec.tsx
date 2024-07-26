@@ -1,17 +1,23 @@
 import "@testing-library/jest-dom";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import fetchMock from "jest-fetch-mock";
 import { Provider } from "react-redux";
 import { MemoryRouter } from "react-router-dom";
 import "whatwg-fetch";
 import SearchBar from "../components/searchBar/SearchBar";
 import MainPage from "../pages/main/MainPage";
+import { AppStore, setupStore } from "../store/store";
 import { BookListMock } from "./mocks/BookListMock";
 import { localStorageMock } from "./mocks/LocalStorageMock";
-import { setupStore } from "../store/store";
+
+fetchMock.enableMocks();
+let store: AppStore;
 
 describe("SearchBar component", () => {
   beforeEach(() => {
     localStorageMock.clear();
+    fetchMock.resetMocks();
+    store = setupStore();
   });
 
   test("Verify that clicking the Search button saves the entered value to the local storage", () => {
@@ -37,14 +43,14 @@ describe("SearchBar component", () => {
   });
 
   test("Check that the component retrieves the value from the local storage upon mounting", () => {
-    window.fetch = jest.fn(() =>
+    fetchMock.mockResponse(() =>
       Promise.resolve({
-        json: () => Promise.resolve(BookListMock),
-        ok: true,
+        status: 200,
+        body: JSON.stringify(BookListMock),
       }),
-    ) as jest.Mock;
+    );
     localStorageMock.setItem("searchTerm", JSON.stringify("testSearchTerm"));
-    const store = setupStore();
+
     render(
       <Provider store={store}>
         <MemoryRouter>

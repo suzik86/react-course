@@ -5,7 +5,7 @@ export interface IBookDetails {
     publishedYear: number;
     publishedMonth: number;
     publishedDay: number | null;
-    numberOfPages: number;
+    numberOfPages: number | null;
     stardateFrom: number | null;
     stardateTo: number | null;
     yearFrom: number | null;
