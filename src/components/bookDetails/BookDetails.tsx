@@ -11,7 +11,7 @@ import "./BookDetails.css";
 const BookDetails = () => {
   const params = useParams<{ bookId: string }>();
 
-  const { data, isFetching, isError, isSuccess, error } = useGetBookByIdQuery(
+  const { data, isFetching, isError, error } = useGetBookByIdQuery(
     params?.bookId,
   );
 
@@ -37,7 +37,7 @@ const BookDetails = () => {
 
   return (
     <>
-      {isSuccess && bookDetails && Object.keys(bookDetails).length && (
+      {bookDetails && Object.keys(bookDetails).length && (
         <div className="book-details-wrapper" ref={wrapperRef}>
           <div className="book-details">
             <div className="book-title">{bookDetails.book.title}</div>

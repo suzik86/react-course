@@ -4,13 +4,12 @@ import { IBook } from "../../interfaces";
 import { selectCurrentPageItems } from "../../store/current-page/selectors";
 import {
   selectBook,
-  unselectAllBooks,
   unselectBook,
 } from "../../store/selected-books/selectedBooksSlice";
 import { selectSelectedBooks } from "../../store/selected-books/selectors";
-import downloadBooks from "../../utils/downloadBooks";
 import Book from "../book/Book";
 import Pagination from "../pagination/Pagination";
+import SelectedBooksButtons from "../selectedBooksButtons/SelectedBooksButtons";
 import "./BooksList.css";
 
 type Props = {
@@ -32,30 +31,13 @@ const BooksList: FC<Props> = ({ totalPages, currentPage }) => {
     }
   };
 
-  const removeSelectedBooks = () => {
-    dispatch(unselectAllBooks());
-  };
-
   return (
     <>
       <div>
-        {!list.length && <p className="not-found">No matching books</p>}
         {Boolean(selectedBooksList.length) && (
-          <div className="selected-books-block">
-            {selectedBooksList.length === 1 && (
-              <p>{selectedBooksList.length} book is selected</p>
-            )}
-            {selectedBooksList.length > 1 && (
-              <p>{selectedBooksList.length} books are selected</p>
-            )}
-            <button className="remove-selected" onClick={removeSelectedBooks}>
-              Unselect all
-            </button>
-            <button onClick={() => downloadBooks(selectedBooksList)}>
-              Download
-            </button>
-          </div>
+          <SelectedBooksButtons selectedBooks={selectedBooksList} />
         )}
+        {!list.length && <p className="not-found">No matching books</p>}
         <div className="results-block">
           {Boolean(list.length) &&
             list.map((book, i) => (
