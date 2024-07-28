@@ -1,16 +1,17 @@
 import { FC } from "react";
-import "./BooksList.css";
-import { IBook } from "../../interfaces";
-import Book from "../book/Book";
-import Pagination from "../pagination/Pagination";
 import { useDispatch, useSelector } from "react-redux";
-import { unselectAllBooks } from "../../store/slices/selectedBooksSlice";
+import { IBook } from "../../interfaces";
+import { selectCurrentPageItems } from "../../store/current-page/selectors";
 import {
   selectBook,
+  unselectAllBooks,
   unselectBook,
-} from "../../store/slices/selectedBooksSlice";
-import { RootState } from "../../store/store";
+} from "../../store/selected-books/selectedBooksSlice";
+import { selectSelectedBooks } from "../../store/selected-books/selectors";
 import downloadBooks from "../../utils/downloadBooks";
+import Book from "../book/Book";
+import Pagination from "../pagination/Pagination";
+import "./BooksList.css";
 
 type Props = {
   totalPages: number;
@@ -18,12 +19,8 @@ type Props = {
 };
 
 const BooksList: FC<Props> = ({ totalPages, currentPage }) => {
-  const list = useSelector(
-    (state: RootState) => state.currentPageItems.currentPageItems,
-  );
-  const selectedBooks = useSelector(
-    (state: RootState) => state.selectedBooks.selectedBooks,
-  );
+  const list = useSelector(selectCurrentPageItems);
+  const selectedBooksList = useSelector(selectSelectedBooks);
 
   const dispatch = useDispatch();
 
@@ -43,18 +40,18 @@ const BooksList: FC<Props> = ({ totalPages, currentPage }) => {
     <>
       <div>
         {!list.length && <p className="not-found">No matching books</p>}
-        {Boolean(selectedBooks.length) && (
+        {Boolean(selectedBooksList.length) && (
           <div className="selected-books-block">
-            {selectedBooks.length === 1 && (
-              <p>{selectedBooks.length} book is selected</p>
+            {selectedBooksList.length === 1 && (
+              <p>{selectedBooksList.length} book is selected</p>
             )}
-            {selectedBooks.length > 1 && (
-              <p>{selectedBooks.length} books are selected</p>
+            {selectedBooksList.length > 1 && (
+              <p>{selectedBooksList.length} books are selected</p>
             )}
             <button className="remove-selected" onClick={removeSelectedBooks}>
               Unselect all
             </button>
-            <button onClick={() => downloadBooks(selectedBooks)}>
+            <button onClick={() => downloadBooks(selectedBooksList)}>
               Download
             </button>
           </div>
@@ -64,7 +61,7 @@ const BooksList: FC<Props> = ({ totalPages, currentPage }) => {
             list.map((book, i) => (
               <div className="book-card-wrapper" key={i}>
                 <input
-                  checked={selectedBooks.includes(book)}
+                  checked={selectedBooksList.includes(book)}
                   type="checkbox"
                   className="book-checkbox"
                   onChange={(e) => handleClick(book, e)}

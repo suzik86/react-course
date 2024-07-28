@@ -2,8 +2,8 @@ import { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { useGetBookByIdQuery } from "../../services/ApiService";
-import { selectedItemDetails } from "../../store/slices/selectedItemDetailsSlice";
-import { RootState } from "../../store/store";
+import { selectedItemDetails } from "../../store/selected-item-details/selectedItemDetailsSlice";
+import { selectSelectedItemsDetails } from "../../store/selected-item-details/selectors";
 import useOutsideAlerter from "../../utils/useOutsideAlerter";
 import Loader from "../loader/Loader";
 import "./BookDetails.css";
@@ -22,9 +22,7 @@ const BookDetails = () => {
     }
   }, [data, dispatch]);
 
-  const bookDetails = useSelector(
-    (state: RootState) => state.selectedItemDetails.details,
-  );
+  const bookDetails = useSelector(selectSelectedItemsDetails);
 
   const navigate = useNavigate();
   const wrapperRef = useRef(null);

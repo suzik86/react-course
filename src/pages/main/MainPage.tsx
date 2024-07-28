@@ -7,7 +7,7 @@ import Loader from "../../components/loader/Loader";
 import SearchBar from "../../components/searchBar/SearchBar";
 import { LocalStorageKeysEnum } from "../../enums";
 import { useGetBooksQuery } from "../../services/ApiService";
-import { currentPageItems } from "../../store/slices/currentPageSlice";
+import { currentPageItems } from "../../store/current-page/currentPageSlice";
 import useLocalStorage from "../../utils/useLocalStorage";
 import "./MainPage.css";
 
@@ -19,7 +19,7 @@ const MainPage = () => {
     LocalStorageKeysEnum.searchTerm,
   );
 
-  const { data, isFetching, isError, error } = useGetBooksQuery({
+  const { data, isFetching, isError, error, currentData } = useGetBooksQuery({
     searchTerm,
     page,
   });
@@ -52,7 +52,7 @@ const MainPage = () => {
           <div className="book-list-wrapper">
             {isFetching && <Loader />}
             {isError && <div>{error}</div>}
-            {!isFetching && data?.books && (
+            {currentData && (
               <BooksList totalPages={data.totalPages} currentPage={page} />
             )}
           </div>

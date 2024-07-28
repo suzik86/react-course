@@ -1,8 +1,8 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { api } from "../services/ApiService";
-import currentPageItems from "./slices/currentPageSlice";
-import selectedBooks from "./slices/selectedBooksSlice";
-import selectedItemDetails from "./slices/selectedItemDetailsSlice";
+import currentPageItems from "./current-page/currentPageSlice";
+import selectedBooks from "./selected-books/selectedBooksSlice";
+import selectedItemDetails from "./selected-item-details/selectedItemDetailsSlice";
 
 const rootReducer = combineReducers({
   [api.reducerPath]: api.reducer,
