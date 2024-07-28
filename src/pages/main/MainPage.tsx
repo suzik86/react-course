@@ -17,7 +17,7 @@ const MainPage = () => {
   const page = Number(searchParams.get("page")) || 0;
   const [searchTerm, setSearchTerm] = useLocalStorage(
     LocalStorageKeysEnum.searchTerm,
-  );
+  ) as [string, React.Dispatch<React.SetStateAction<string>>];
 
   const { data, isFetching, isError, error, currentData } = useGetBooksQuery({
     searchTerm,
