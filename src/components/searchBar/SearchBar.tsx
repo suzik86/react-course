@@ -24,18 +24,14 @@ const SearchBar: FC<Props> = ({ searchTerm, setSearchTerm }) => {
 
   useEffect(() => {
     if (error) {
-      throw new Error("Simulated error.");
+      throw error;
     }
   }, [error]);
 
   return (
     <form onSubmit={handleSearch} className="search-bar">
       <input
-        className={
-          theme === "light"
-            ? "search-input light-search-input"
-            : "search-input dark-search-input"
-        }
+        className={`search-input ${theme}-search-input`}
         type="search"
         placeholder="Enter book title..."
         value={inputTerm}

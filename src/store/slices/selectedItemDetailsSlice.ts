@@ -2,10 +2,10 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { IBookDetails } from "../../interfaces";
 
 export interface SelectedItemDetailsState {
-  details: IBookDetails;
+  details: IBookDetails | null;
 }
 const initialState: SelectedItemDetailsState = {
-  details: {} as IBookDetails,
+  details: null,
 };
 
 export const selectedItemDetailsSlice = createSlice({

@@ -18,11 +18,11 @@ export const api = createApi({
         },
         body: `title=${searchTerm}`,
       }),
-      transformResponse: (response: IResponse) => ({
-        books: response.books || [],
-        totalPages: response.page.totalPages || 0,
-        page: response.page,
-        sort: response.sort,
+      transformResponse: ({ books, page, sort }: IResponse) => ({
+        books,
+        totalPages: page.totalPages,
+        page,
+        sort,
       }),
       providesTags: ["Books"],
     }),

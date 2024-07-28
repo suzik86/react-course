@@ -10,7 +10,7 @@ const initialState: CurrentPageItemsInitialState = {
 
 export const currentPageItemsSlice = createSlice({
   name: "currentPageItems",
-  initialState: initialState,
+  initialState,
   reducers: {
     currentPageItems: (state, action: PayloadAction<IBook[]>) => {
       state.currentPageItems = action.payload;

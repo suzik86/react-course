@@ -10,6 +10,7 @@ import {
   unselectBook,
 } from "../../store/slices/selectedBooksSlice";
 import { RootState } from "../../store/store";
+import downloadBooks from "../../utils/downloadBooks";
 
 type Props = {
   totalPages: number;
@@ -27,7 +28,7 @@ const BooksList: FC<Props> = ({ totalPages, currentPage }) => {
   const dispatch = useDispatch();
 
   const handleClick = (book: IBook, e: React.ChangeEvent<HTMLInputElement>) => {
-    if ((e.target as HTMLInputElement).checked) {
+    if (e.target.checked) {
       dispatch(selectBook(book));
     } else {
       dispatch(unselectBook(book));
@@ -38,34 +39,11 @@ const BooksList: FC<Props> = ({ totalPages, currentPage }) => {
     dispatch(unselectAllBooks());
   };
 
-  const handleDownload = () => {
-    const selectedBooksData = selectedBooks.map((book) => ({
-      title: book.title,
-      publishedYear: book.publishedYear
-        ? `was published in ${book.publishedYear}`
-        : "",
-      numberOfPages: book.numberOfPages ? `${book.numberOfPages} pages` : "",
-    }));
-    const csvContent = `data:text/csv;charset=utf-8,${selectedBooksData
-      .map((book, i) => {
-        const bookInfo = Object.values(book).join(", ");
-        return `${(i + 1).toString()}. ${bookInfo}`;
-      })
-      .join("\n")}`;
-    const encodedUri = encodeURI(csvContent);
-    const link = document.createElement("a");
-    link.href = encodedUri;
-    link.download = `${selectedBooks.length}_books.csv`;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  };
-
   return (
     <>
       <div>
         {!list.length && <p className="not-found">No matching books</p>}
-        {selectedBooks.length > 0 && (
+        {Boolean(selectedBooks.length) && (
           <div className="selected-books-block">
             {selectedBooks.length === 1 && (
               <p>{selectedBooks.length} book is selected</p>
@@ -76,11 +54,13 @@ const BooksList: FC<Props> = ({ totalPages, currentPage }) => {
             <button className="remove-selected" onClick={removeSelectedBooks}>
               Unselect all
             </button>
-            <button onClick={handleDownload}>Download</button>
+            <button onClick={() => downloadBooks(selectedBooks)}>
+              Download
+            </button>
           </div>
         )}
         <div className="results-block">
-          {list.length > 0 &&
+          {Boolean(list.length) &&
             list.map((book, i) => (
               <div className="book-card-wrapper" key={i}>
                 <input
@@ -94,7 +74,7 @@ const BooksList: FC<Props> = ({ totalPages, currentPage }) => {
             ))}
         </div>
       </div>
-      {list.length > 0 && (
+      {Boolean(list.length) && (
         <Pagination currentPage={currentPage} totalPages={totalPages} />
       )}
     </>

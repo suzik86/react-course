@@ -1,14 +1,14 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { api } from "../services/ApiService";
-import currentPageItemsReducer from "./slices/currentPageSlice";
-import selectedBooksReducer from "./slices/selectedBooksSlice";
-import selectedItemDetailsReducer from "./slices/selectedItemDetailsSlice";
+import currentPageItems from "./slices/currentPageSlice";
+import selectedBooks from "./slices/selectedBooksSlice";
+import selectedItemDetails from "./slices/selectedItemDetailsSlice";
 
 const rootReducer = combineReducers({
   [api.reducerPath]: api.reducer,
-  selectedBooks: selectedBooksReducer,
-  currentPageItems: currentPageItemsReducer,
-  selectedItemDetails: selectedItemDetailsReducer,
+  selectedBooks,
+  currentPageItems,
+  selectedItemDetails,
 });
 
 export function setupStore(preloadedState?: Partial<RootState>) {

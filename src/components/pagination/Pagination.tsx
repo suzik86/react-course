@@ -8,7 +8,7 @@ type Props = {
 };
 
 const Pagination: FC<Props> = ({ currentPage, totalPages }) => {
-  const disablePrevious = currentPage === 0;
+  const disablePrevious = !currentPage;
   const disableNext = currentPage === totalPages - 1;
 
   const currentUrl = window.location.pathname;

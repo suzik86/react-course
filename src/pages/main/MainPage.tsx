@@ -19,9 +19,9 @@ const MainPage = () => {
     LocalStorageKeysEnum.searchTerm,
   );
 
-  const { data, isLoading, isError } = useGetBooksQuery({
-    searchTerm: searchTerm,
-    page: page,
+  const { data, isFetching, isError, error } = useGetBooksQuery({
+    searchTerm,
+    page,
   });
 
   const saveSearchTerm = (searchTerm: string) => {
@@ -31,10 +31,10 @@ const MainPage = () => {
 
   const dispatch = useDispatch();
   useEffect(() => {
-    if (data && data.books) {
+    if (data?.books) {
       dispatch(currentPageItems(data.books));
     }
-  }, [data, dispatch, page]);
+  }, [data, dispatch]);
 
   const changeTheme = () => {
     setTheme(theme === "light" ? "dark" : "light");
@@ -42,9 +42,7 @@ const MainPage = () => {
 
   return (
     <ThemeContext.Provider value={theme}>
-      <main
-        className={theme === "light" ? "main light-mode" : "main dark-mode"}
-      >
+      <main className={`main ${theme}-mode`}>
         <button className="change-theme-btn" onClick={changeTheme}>
           Change theme
         </button>
@@ -52,10 +50,10 @@ const MainPage = () => {
         <SearchBar searchTerm={searchTerm} setSearchTerm={saveSearchTerm} />
         <div className="main-block-wrapper">
           <div className="book-list-wrapper">
-            {isLoading && <Loader />}
-            {isError && <div>ERR!</div>}
-            {data && data.books && (
-              <BooksList totalPages={data?.totalPages} currentPage={page} />
+            {isFetching && <Loader />}
+            {isError && <div>{error}</div>}
+            {!isFetching && data?.books && (
+              <BooksList totalPages={data.totalPages} currentPage={page} />
             )}
           </div>
           <Outlet />

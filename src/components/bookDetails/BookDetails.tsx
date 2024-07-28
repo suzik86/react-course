@@ -11,7 +11,7 @@ import "./BookDetails.css";
 const BookDetails = () => {
   const params = useParams<{ bookId: string }>();
 
-  const { data, isLoading, isError, isSuccess } = useGetBookByIdQuery(
+  const { data, isFetching, isError, isSuccess, error } = useGetBookByIdQuery(
     params?.bookId,
   );
 
@@ -30,16 +30,16 @@ const BookDetails = () => {
   const wrapperRef = useRef(null);
   useOutsideAlerter(wrapperRef, () => navigate(-1));
 
-  if (isLoading) {
+  if (isFetching) {
     return <Loader />;
   }
   if (isError) {
-    return <div>ERR!</div>;
+    return <div>{error}</div>;
   }
 
   return (
     <>
-      {isSuccess && Object.keys(bookDetails).length && (
+      {isSuccess && bookDetails && Object.keys(bookDetails).length && (
         <div className="book-details-wrapper" ref={wrapperRef}>
           <div className="book-details">
             <div className="book-title">{bookDetails.book.title}</div>
