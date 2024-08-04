@@ -1,7 +1,7 @@
 import "whatwg-fetch";
 import "@testing-library/jest-dom";
 import { render } from "@testing-library/react";
-import { MemoryRouter } from "react-router-dom";
+//import { MemoryRouter } from "react-router-dom";
 import Pagination from "../components/pagination/Pagination";
 import { useState } from "react";
 
@@ -26,9 +26,7 @@ describe("Pagination component", () => {
     }));
 
     const { container } = render(
-      <MemoryRouter>
-        <Pagination totalPages={10} currentPage={1} />
-      </MemoryRouter>,
+      <Pagination totalPages={10} currentPage={1} searchTerm="" />,
     );
     const nextButton = container.querySelector(".next-button") as HTMLElement;
     expect(nextButton).toBeInTheDocument();

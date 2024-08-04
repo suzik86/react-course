@@ -1,3 +1,4 @@
+"use client";
 import { FC } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { IBook } from "../../interfaces";
@@ -10,14 +11,19 @@ import { selectSelectedBooks } from "../../store/selected-books/selectors";
 import Book from "../book/Book";
 import Pagination from "../pagination/Pagination";
 import SelectedBooksButtons from "../selectedBooksButtons/SelectedBooksButtons";
-import "./BooksList.css";
+import styles from "./BooksList.module.css";
 
-type Props = {
+type BooksListProps = {
   totalPages: number;
   currentPage: number;
+  searchTerm: string;
 };
 
-const BooksList: FC<Props> = ({ totalPages, currentPage }) => {
+const BooksList: FC<BooksListProps> = ({
+  totalPages,
+  currentPage,
+  searchTerm,
+}) => {
   const list = useSelector(selectCurrentPageItems);
   const selectedBooksList = useSelector(selectSelectedBooks);
 
@@ -37,24 +43,32 @@ const BooksList: FC<Props> = ({ totalPages, currentPage }) => {
         {Boolean(selectedBooksList.length) && (
           <SelectedBooksButtons selectedBooks={selectedBooksList} />
         )}
-        {!list.length && <p className="not-found">No matching books</p>}
-        <div className="results-block">
+        {!list.length && <p className={styles.not_found}>No matching books</p>}
+        <div className={styles.results_block}>
           {Boolean(list.length) &&
             list.map((book, i) => (
-              <div className="book-card-wrapper" key={i}>
+              <div className={styles.book_card_wrapper} key={i}>
                 <input
                   checked={selectedBooksList.includes(book)}
                   type="checkbox"
-                  className="book-checkbox"
+                  className={styles.book_checkbox}
                   onChange={(e) => handleClick(book, e)}
                 />
-                <Book book={book} currentPage={currentPage} />
+                <Book
+                  book={book}
+                  currentPage={currentPage}
+                  searchTerm={searchTerm}
+                />
               </div>
             ))}
         </div>
       </div>
       {Boolean(list.length) && (
-        <Pagination currentPage={currentPage} totalPages={totalPages} />
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          searchTerm={searchTerm}
+        />
       )}
     </>
   );

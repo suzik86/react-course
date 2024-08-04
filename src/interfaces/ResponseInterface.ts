@@ -1,6 +1,7 @@
 import { IBook } from "./BookInterface";
 
 export interface IResponse {
+  books: IBook[];
   page: {
     pageNumber: number;
     pageSize: number;
@@ -13,5 +14,4 @@ export interface IResponse {
   sort: {
     clauses: string[];
   };
-  books: IBook[];
 }

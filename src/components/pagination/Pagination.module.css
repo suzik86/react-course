@@ -4,8 +4,8 @@
   margin-top: 20px;
 }
 
-.previous-button,
-.next-button {
+.previous_button,
+.next_button {
   background-color: green;
   border: 1px solid #dee2e6;
   border-radius: 5px;
@@ -14,13 +14,13 @@
   cursor: pointer;
 }
 
-.current-page-block {
+.current_page_block {
   font-size: 20px;
   padding: 5px 10px;
   margin: 0 20px;
   cursor: pointer;
 }
 
-.current-page {
+.current_page {
   font-weight: bold;
 }

@@ -1,39 +1,45 @@
-.main-block-wrapper {
+.change_theme_btn {
+  position: absolute;
+  top: 30px;
+  right: 30px;
+  background-color: lightgreen;
+}
+
+.main_block_wrapper {
   width: 100%;
   display: flex;
   justify-content: space-between;
 }
 
-.book-list-wrapper {
+.book_list_wrapper {
   width: 100%;
   min-width: 60%;
 }
-
-.change-theme-btn {
-  position: absolute;
-  top: 30px;
-  right: 30px;
-}
-
-.main {
+.main_light,
+.main_dark {
   display: flex;
   height: 100vh;
   width: 100vw;
-  justify-content: center;
   align-items: center;
   flex-direction: column;
   position: relative;
 }
 
-.dark-mode {
+.main_dark {
   background-color: black;
   color: white;
 }
 
-.light-mode button {
+.main_light button {
   background-color: lightgreen;
 }
 
-.dark-mode button {
+.main_dark button {
   background-color: green;
+}
+
+.error_msg {
+  font-size: 35px;
+  color: red;
+  text-align: center;
 }

@@ -1,10 +1,10 @@
 import { FC } from "react";
-import "./Loader.css";
+import styles from "./Loader.module.css";
 
 const Loader: FC = () => {
   return (
-    <div className="loader-wrapper">
-      <div className="loader" />
+    <div className={styles.loader_wrapper}>
+      <div className={styles.loader} />
     </div>
   );
 };

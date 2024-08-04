@@ -1,22 +1,29 @@
+"use client";
 import { FC, useContext } from "react";
-import { Link } from "react-router-dom";
+import Link from "next/link";
 import { ThemeContext } from "../../ThemeContext";
 import { IBook } from "../../interfaces";
-import "./Book.css";
+import styles from "./Book.module.css";
 
 type Props = {
   book: IBook;
   currentPage: number;
+  searchTerm: string;
 };
 
-const Book: FC<Props> = ({ book, currentPage }) => {
+const Book: FC<Props> = ({ book, currentPage, searchTerm }) => {
   const theme = useContext(ThemeContext);
 
   return (
-    <Link to={`/book/${book.uid}?page=${currentPage}`} className="book-link">
-      <div className="book-card">
+    <Link
+      href={`/book/${book.uid}?searchTerm=${searchTerm}&page=${currentPage}`}
+      className={styles.book_link}
+    >
+      <div className={styles.book_card}>
         <div
-          className={theme === "light" ? "light-book-title" : "dark-book-title"}
+          className={
+            theme === "light" ? styles.light_book_title : styles.dark_book_title
+          }
         >
           {book.title}
         </div>
