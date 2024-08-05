@@ -1,12 +1,12 @@
-import { useRouter } from "next/router";
-import { FC, useEffect, useRef } from "react";
+import Router, { useRouter } from "next/router";
+import { FC, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { IBookDetails } from "../../interfaces";
 import { selectedItemDetails } from "../../store/selected-item-details/selectedItemDetailsSlice";
 import { selectSelectedItemsDetails } from "../../store/selected-item-details/selectors";
 import useOutsideAlerter from "../../utils/useOutsideAlerter";
-//import Loader from "../loader/Loader";
+import Loader from "../loader/Loader";
 import styles from "./BookDetails.module.css";
-import { IBookDetails } from "../../interfaces";
 
 type BookDetailsProps = {
   dataByIdFromServer: IBookDetails;
@@ -20,22 +20,35 @@ const BookDetails: FC<BookDetailsProps> = ({ dataByIdFromServer }) => {
       dispatch(selectedItemDetails(dataByIdFromServer));
     }
   }, [dataByIdFromServer, dispatch]);
-
+  const [isLoading, setLoading] = useState(false);
+  useEffect(() => {
+    const start = () => {
+      setLoading(true);
+    };
+    const end = () => {
+      setLoading(false);
+    };
+    Router.events.on("routeChangeStart", start);
+    Router.events.on("routeChangeComplete", end);
+    Router.events.on("routeChangeError", end);
+    return () => {
+      Router.events.off("routeChangeStart", start);
+      Router.events.off("routeChangeComplete", end);
+      Router.events.off("routeChangeError", end);
+    };
+  }, []);
   const bookDetails = useSelector(selectSelectedItemsDetails);
 
   const wrapperRef = useRef(null);
   useOutsideAlerter(wrapperRef, () => router.back());
 
-  // if (isFetching) {
-  //   return <Loader />;
-  // }
-  // if (isError) {
-  //   return <div>{error}</div>;
-  // }
+  if (isLoading) {
+    return <Loader />;
+  }
 
   return (
     <>
-      {bookDetails && Object.keys(bookDetails).length && (
+      {!isLoading && bookDetails && Object.keys(bookDetails).length && (
         <div className={styles.book_details_wrapper} ref={wrapperRef}>
           <div className={styles.book_details}>
             <div className={styles.book_title}>{bookDetails.book.title}</div>

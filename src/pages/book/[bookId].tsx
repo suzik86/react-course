@@ -1,6 +1,3 @@
-// Disable rule react-refresh/only-export-components
-/* eslint-disable react-refresh/only-export-components */
-
 import { useRouter } from "next/router";
 import React, { FC } from "react";
 import Home from "..";

@@ -1,12 +1,10 @@
-// Disable rule react-refresh/only-export-components
-/* eslint-disable react-refresh/only-export-components */
-
 import { GetServerSideProps } from "next";
 import { useSearchParams } from "next/navigation";
+import { Router } from "next/router";
 import { ReactNode, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import BooksList from "../components/booksList/BooksList";
-//import Loader from "../components/loader/Loader";
+import Loader from "../components/loader/Loader";
 import SearchBar from "../components/searchBar/SearchBar";
 import { LocalStorageKeysEnum } from "../enums";
 import { IResponse } from "../interfaces";
@@ -46,6 +44,23 @@ export const getServerSideProps = (async ({ query }) => {
 
 const Home: React.FC<HomeProps> = ({ children, dataFromServer }) => {
   const [theme, setTheme] = useState("light");
+  const [isLoading, setLoading] = useState(false);
+  useEffect(() => {
+    const start = () => {
+      setLoading(true);
+    };
+    const end = () => {
+      setLoading(false);
+    };
+    Router.events.on("routeChangeStart", start);
+    Router.events.on("routeChangeComplete", end);
+    Router.events.on("routeChangeError", end);
+    return () => {
+      Router.events.off("routeChangeStart", start);
+      Router.events.off("routeChangeComplete", end);
+      Router.events.off("routeChangeError", end);
+    };
+  }, []);
   const searchParams = useSearchParams();
   const page = Number(searchParams.get("page")) || 0;
 
@@ -84,9 +99,8 @@ const Home: React.FC<HomeProps> = ({ children, dataFromServer }) => {
         <SearchBar searchTerm={searchTerm} setSearchTerm={saveSearchTerm} />
         <div className={styles.main_block_wrapper}>
           <div className={styles.book_list_wrapper}>
-            {/* {isFetching && <Loader />}
-            {isError && <div>{error}</div>} */}
-            {dataFromServer && (
+            {isLoading && <Loader />}
+            {!isLoading && dataFromServer && (
               <BooksList
                 totalPages={dataFromServer?.page?.totalPages || 0}
                 currentPage={page}

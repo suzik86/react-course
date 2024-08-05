@@ -1,13 +1,10 @@
-// Disable rule react-refresh/only-export-components
-/* eslint-disable react-refresh/only-export-components */
-
 import type { AppProps } from "next/app";
 import { useState } from "react";
 import ErrorBoundary from "../components/ErrorBoundary";
 import { wrapper } from "../store/store";
+import "../styles/globals.css";
 import styles from "../styles/Home.module.css";
 import { ThemeContext } from "../ThemeContext";
-import "../styles/globals.css";
 
 export function App({ Component, pageProps }: AppProps) {
   const [theme] = useState("light");
