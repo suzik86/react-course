@@ -22,7 +22,6 @@ const SearchBar: FC<Props> = ({ searchTerm, setSearchTerm }) => {
   };
 
   const throwError = () => {
-    console.log("Throwing error");
     setError(new Error("Simulated error."));
   };
 

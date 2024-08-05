@@ -16,5 +16,6 @@ module.exports = {
     ],
     "react-compiler/react-compiler": "error",
     "@typescript-eslint/no-explicit-any": "error",
+    "@typescript-eslint/no-var-requires": 0,
   },
 };

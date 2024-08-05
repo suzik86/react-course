@@ -1,69 +1,44 @@
 import "@testing-library/jest-dom";
 import { fireEvent, render, screen } from "@testing-library/react";
-import fetchMock from "jest-fetch-mock";
-//import { Provider } from "react-redux";
-//import { MemoryRouter } from "react-router-dom";
+import mockRouter from "next-router-mock";
 import "whatwg-fetch";
+import ErrorBoundary from "../components/ErrorBoundary";
 import SearchBar from "../components/searchBar/SearchBar";
-//import MainPage from "../components/mainPage/MainPage";
-//import { AppStore, setupStore } from "../store/store";
-//import { BookListMock } from "./mocks/BookListMock";
-import { localStorageMock } from "./mocks/LocalStorageMock";
 
-fetchMock.enableMocks();
-//let store: AppStore;
+jest.mock("next/router", () => jest.requireActual("next-router-mock"));
 
 describe("SearchBar component", () => {
-  beforeEach(() => {
-    localStorageMock.clear();
-    fetchMock.resetMocks();
-    //store = setupStore();
+  test("Verify that the input value is updated correctly", () => {
+    mockRouter.push("/");
+    render(<SearchBar searchTerm={""} setSearchTerm={() => {}} />);
+    const searchInput: HTMLInputElement = screen.getByPlaceholderText(
+      "Enter book title...",
+    );
+    expect(searchInput).toBeInTheDocument();
+    fireEvent.change(searchInput, { target: { value: "test" } });
+    expect(searchInput.value).toBe("test");
   });
 
-  test("Verify that clicking the Search button saves the entered value to the local storage", () => {
-    render(
-      <SearchBar
-        searchTerm={""}
-        setSearchTerm={(term) => {
-          localStorageMock.setItem("searchTerm", term);
-        }}
-      />,
-    );
-    const searchInput = document.querySelector(
-      ".search-input",
-    ) as HTMLInputElement;
+  test("Verify that the search term is updated correctly when submitting the form", () => {
+    const setSearchTermMock = jest.fn();
+    render(<SearchBar searchTerm={""} setSearchTerm={setSearchTermMock} />);
+    const searchInput = screen.getByPlaceholderText("Enter book title...");
     const searchButton = screen.getByText("Search");
-    expect(searchButton).toBeInTheDocument();
-    expect(searchInput).toBeInTheDocument();
-
     fireEvent.change(searchInput, { target: { value: "test" } });
     fireEvent.click(searchButton);
-    expect(searchInput.value).toBe("test");
-    expect(localStorageMock.getItem("searchTerm")).toBe("test");
+    expect(setSearchTermMock).toHaveBeenCalledWith("test");
   });
 
-  // test("Check that the component retrieves the value from the local storage upon mounting", () => {
-  //   fetchMock.mockResponse(() =>
-  //     Promise.resolve({
-  //       status: 200,
-  //       body: JSON.stringify(BookListMock),
-  //     }),
-  //   );
-  //   localStorageMock.setItem("searchTerm", JSON.stringify("testSearchTerm"));
-
-  //   render(
-  //     <Provider store={store}>
-  //       <MemoryRouter>
-  //         <MainPage />
-  //       </MemoryRouter>
-  //     </Provider>,
-  //   );
-  //   waitFor(() => {
-  //     const searchInput = document.querySelector(
-  //       ".search-input",
-  //     ) as HTMLInputElement;
-  //     expect(searchInput).toBeInTheDocument();
-  //     expect(searchInput.value).toBe("testSearchTerm");
-  //   });
-  // });
+  test("Verify that clicking the 'Throw error' button throws an error", () => {
+    render(
+      <ErrorBoundary fallback={<p>Something went wrong</p>}>
+        <SearchBar searchTerm={""} setSearchTerm={() => {}} />,
+      </ErrorBoundary>,
+    );
+    const throwErrorButton = screen.getByText("Throw error");
+    expect(throwErrorButton).toBeInTheDocument();
+    fireEvent.click(throwErrorButton);
+    const errorMsg = screen.getByText("Something went wrong");
+    expect(errorMsg).toBeInTheDocument();
+  });
 });

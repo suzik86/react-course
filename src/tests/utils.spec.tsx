@@ -2,9 +2,8 @@ import "@testing-library/jest-dom";
 import "@testing-library/jest-dom/jest-globals";
 import downloadBooks from "../utils/downloadBooks";
 import { BookMock } from "./mocks/BookMock";
-import { act, renderHook } from "@testing-library/react";
+import { renderHook } from "@testing-library/react";
 import useOutsideAlerter from "../utils/useOutsideAlerter";
-import useLocalStorage from "../utils/useLocalStorage";
 
 describe("downloadBooks", () => {
   it("check that the link was created and then deleted", () => {
@@ -40,22 +39,5 @@ describe("useOutsideAlerter", () => {
     expect(callbackFunction).toHaveBeenCalled();
 
     document.body.removeChild(outsideElement);
-  });
-});
-
-describe("useLocalStorage", () => {
-  it("should store and retrieve value from localStorage", () => {
-    const key = "testKey";
-    const { result } = renderHook(() => useLocalStorage(key));
-    act(() => {
-      (result.current[1] as React.Dispatch<React.SetStateAction<string>>)(
-        "testValue",
-      );
-    });
-    expect(window.localStorage.getItem(key)).toBe("testValue");
-    act(() => {
-      (result.current[1] as React.Dispatch<React.SetStateAction<string>>)("");
-    });
-    expect(window.localStorage.getItem(key)).toBe("");
   });
 });

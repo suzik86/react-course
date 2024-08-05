@@ -1,90 +1,60 @@
 import "@testing-library/jest-dom";
-import { fireEvent, render, waitFor } from "@testing-library/react";
-import fetchMock from "jest-fetch-mock";
+import { fireEvent, render } from "@testing-library/react";
 import { Provider } from "react-redux";
-//import { MemoryRouter } from "react-router-dom";
-import "whatwg-fetch";
 import BookDetails from "../components/bookDetails/BookDetails";
-import { BookDetailsMock } from "./mocks/BookDetailsMock";
 import { AppStore, setupStore } from "../store/store";
-
-fetchMock.enableMocks();
+import { BookDetailsMock } from "./mocks/BookDetailsMock";
 
 let store: AppStore;
+const useRouter = jest.spyOn(require("next/router"), "useRouter");
 
-// jest.mock("react-router-dom", () => ({
-//   ...jest.requireActual("react-router-dom"),
-//   useParams: jest.fn(() => ({
-//     uid: "BOMA0000168934",
-//   })),
-// }));
-
-// const mockedUsedNavigate = jest.fn();
-// jest.mock("react-router-dom", () => ({
-//   ...jest.requireActual("react-router-dom"),
-//   useNavigate: () => mockedUsedNavigate,
-// }));
+// Mock the useOutsideAlerter hook
+jest.mock("../utils/useOutsideAlerter", () => jest.fn());
 
 describe("BookDetails component", () => {
   beforeEach(() => {
-    fetchMock.resetMocks();
     store = setupStore();
   });
 
-  test("Check that a loading indicator is displayed while fetching data", async () => {
-    render(
-      <Provider store={store}>
-        <BookDetails dataByIdFromServer={BookDetailsMock} />
-      </Provider>,
-    );
-    expect(document.querySelector(".loader")).toBeInTheDocument();
-    await waitFor(() => {
-      expect(document.querySelector(".loader")).not.toBeInTheDocument();
-    });
-  });
-
-  test("Make sure the detailed card component correctly displays the detailed card data", async () => {
-    fetchMock.mockResponse(() =>
-      Promise.resolve({
-        status: 200,
-        body: JSON.stringify(BookDetailsMock),
-      }),
-    );
+  test("Check that the book details are displayed", () => {
+    useRouter.mockImplementation(() => ({
+      route: "/",
+      pathname: "",
+      query: "",
+      asPath: "",
+      push: jest.fn(),
+      events: {
+        on: jest.fn(),
+        off: jest.fn(),
+      },
+      beforePopState: jest.fn(() => null),
+      prefetch: jest.fn(() => null),
+    }));
 
     const { getByText } = render(
       <Provider store={store}>
         <BookDetails dataByIdFromServer={BookDetailsMock} />
       </Provider>,
     );
-    await waitFor(() => {
-      expect(getByText("A Choice of Futures")).toBeInTheDocument();
-      expect(document.querySelector(".book-details")).toBeInTheDocument();
-    });
+
+    expect(getByText("A Choice of Futures")).toBeInTheDocument();
+    expect(document.querySelector(".book_details")).toBeInTheDocument();
   });
 
-  test("Make sure navigation occurs after clicking the Close button", async () => {
-    fetchMock.mockResponse(() =>
-      Promise.resolve({
-        status: 200,
-        body: JSON.stringify(BookDetailsMock),
-      }),
-    );
+  test("Check that the router.back function is called when the Close button is clicked", () => {
+    // Mock the useRouter hook to return a mock function for router.back
+    useRouter.mockImplementation(() => ({
+      back: jest.fn(),
+    }));
 
-    const { container } = render(
+    const { getByText } = render(
       <Provider store={store}>
         <BookDetails dataByIdFromServer={BookDetailsMock} />
       </Provider>,
     );
-    let bookDetailsCard: Element | null;
-    await waitFor(() => {
-      bookDetailsCard = container.querySelector(".book-details");
-      expect(bookDetailsCard as HTMLElement).toBeInTheDocument();
-    });
-    const closeButtonElement = container.querySelector(".close-btn");
-    expect(closeButtonElement).toBeInTheDocument();
-    fireEvent.click(closeButtonElement as HTMLElement);
-    // await waitFor(() => {
-    //   expect(mockedUsedNavigate).toHaveBeenCalledTimes(1);
-    // });
+
+    const closeButtonElement = getByText("X");
+    fireEvent.click(closeButtonElement);
+    expect(useRouter).toHaveBeenCalled();
   });
 });

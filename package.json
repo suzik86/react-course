@@ -11,7 +11,8 @@
     "preview": "vite preview",
     "format:fix": "prettier --write .",
     "prepare": "husky",
-    "test": "jest --coverage --verbose"
+    "test": "jest --coverage --verbose",
+    "test:watch": "jest --watch"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.2.6",
@@ -20,6 +21,7 @@
     "lint-staged": "^15.2.7",
     "next": "^14.2.5",
     "next-redux-wrapper": "^8.1.0",
+    "next-router-mock": "^0.9.13",
     "prettier": "^3.3.2",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",

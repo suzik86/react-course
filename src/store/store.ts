@@ -10,13 +10,9 @@ const rootReducer = combineReducers({
   selectedItemDetails,
 });
 
-// export function setupStore(preloadedState?: Partial<RootState>) {
 export function setupStore() {
   return configureStore({
     reducer: rootReducer,
-    // middleware: (getDefaultMiddleware) =>
-    //   getDefaultMiddleware().concat(api.middleware),
-    //preloadedState,
   });
 }
 
@@ -24,4 +20,4 @@ export type RootState = ReturnType<typeof rootReducer>;
 export type AppStore = ReturnType<typeof setupStore>;
 export type AppDispatch = AppStore["dispatch"];
 
-export const wrapper = createWrapper<AppStore>(setupStore, { debug: true });
+export const wrapper = createWrapper(setupStore, { debug: true });
