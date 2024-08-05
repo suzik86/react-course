@@ -1,0 +1,22 @@
+.not_found {
+  font-size: 20px;
+  text-align: center;
+}
+
+.results_block {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.book_card_wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 15px;
+  width: 40%;
+}
+
+.book_checkbox {
+  margin-right: 20px;
+  width: 20px;
+}
