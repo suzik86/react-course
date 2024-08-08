@@ -1,0 +1,26 @@
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.previous_button,
+.next_button {
+  background-color: green;
+  border: 1px solid #dee2e6;
+  border-radius: 5px;
+  padding: 5px 10px;
+  margin: 0 20px;
+  cursor: pointer;
+}
+
+.current_page_block {
+  font-size: 20px;
+  padding: 5px 10px;
+  margin: 0 20px;
+  cursor: pointer;
+}
+
+.current_page {
+  font-weight: bold;
+}
