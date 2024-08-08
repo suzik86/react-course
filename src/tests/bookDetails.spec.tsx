@@ -6,9 +6,9 @@ import { AppStore, setupStore } from "../store/store";
 import { BookDetailsMock } from "./mocks/BookDetailsMock";
 
 let store: AppStore;
-const useRouter = jest.spyOn(require("next/router"), "useRouter");
 
-// Mock the useOutsideAlerter hook
+jest.mock("next/navigation", () => jest.requireActual("next-router-mock"));
+
 jest.mock("../utils/useOutsideAlerter", () => jest.fn());
 
 describe("BookDetails component", () => {
@@ -17,20 +17,6 @@ describe("BookDetails component", () => {
   });
 
   test("Check that the book details are displayed", () => {
-    useRouter.mockImplementation(() => ({
-      route: "/",
-      pathname: "",
-      query: "",
-      asPath: "",
-      push: jest.fn(),
-      events: {
-        on: jest.fn(),
-        off: jest.fn(),
-      },
-      beforePopState: jest.fn(() => null),
-      prefetch: jest.fn(() => null),
-    }));
-
     const { getByText } = render(
       <Provider store={store}>
         <BookDetails dataByIdFromServer={BookDetailsMock} />
@@ -42,10 +28,7 @@ describe("BookDetails component", () => {
   });
 
   test("Check that the router.back function is called when the Close button is clicked", () => {
-    // Mock the useRouter hook to return a mock function for router.back
-    useRouter.mockImplementation(() => ({
-      back: jest.fn(),
-    }));
+    const useRouter = jest.spyOn(require("next/navigation"), "useRouter");
 
     const { getByText } = render(
       <Provider store={store}>

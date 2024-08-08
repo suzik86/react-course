@@ -67,7 +67,3 @@ button:focus-visible {
   min-width: 50%;
   text-align: center;
 }
-
-.error_msg {
-  font-size: 35px;
-}

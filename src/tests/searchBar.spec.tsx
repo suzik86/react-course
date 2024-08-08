@@ -5,7 +5,7 @@ import "whatwg-fetch";
 import ErrorBoundary from "../components/ErrorBoundary";
 import SearchBar from "../components/searchBar/SearchBar";
 
-jest.mock("next/router", () => jest.requireActual("next-router-mock"));
+jest.mock("next/navigation", () => jest.requireActual("next-router-mock"));
 
 describe("SearchBar component", () => {
   test("Verify that the input value is updated correctly", () => {

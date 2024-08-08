@@ -1,5 +1,5 @@
 "use client";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { FC, useContext, useEffect, useState } from "react";
 import { ThemeContext } from "../../ThemeContext";
 import styles from "./SearchBar.module.css";
