@@ -4,7 +4,7 @@ import React from "react";
 import BookDetails from "../../src/components/bookDetails/BookDetails";
 import { getBookDetails } from "../../src/services/ApiService";
 
-export const loader = async ({ params }: {params: {bookId: string}}) => {
+export const loader = async ({ params }: { params: { bookId: string } }) => {
   const details = await getBookDetails(params.bookId);
   if (!details) {
     throw new Response("Not Found", { status: 404 });
@@ -17,10 +17,5 @@ export default function Details() {
   const navigation = useNavigation();
   const isLoading = navigation.state === "loading" ? true : false;
 
-  return (
-    <BookDetails data={details} isLoading={isLoading} />
-  );
+  return <BookDetails data={details} isLoading={isLoading} />;
 }
-
-
-

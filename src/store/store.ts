@@ -3,7 +3,7 @@ import currentPageItems from "./current-page/currentPageSlice";
 import selectedBooks from "./selected-books/selectedBooksSlice";
 import selectedItemDetails from "./selected-item-details/selectedItemDetailsSlice";
 
-const rootReducer = combineReducers({  
+const rootReducer = combineReducers({
   selectedBooks,
   currentPageItems,
   selectedItemDetails,
@@ -11,7 +11,7 @@ const rootReducer = combineReducers({
 
 export function setupStore(preloadedState?: Partial<RootState>) {
   return configureStore({
-    reducer: rootReducer,    
+    reducer: rootReducer,
     preloadedState,
   });
 }

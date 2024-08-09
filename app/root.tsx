@@ -1,4 +1,4 @@
-import { json } from "@remix-run/node";
+import { json, LoaderFunctionArgs } from "@remix-run/node";
 import {
   Links,
   Meta,
@@ -17,9 +17,11 @@ import "./app.css";
 
 const store = setupStore();
 
-export const loader = async () => {
-  // console.log("searchParams", searchParams);
-  const data = await getBooks(0, "");
+export const loader = async ({ request }: LoaderFunctionArgs) => {
+  const { searchParams } = new URL(request.url);
+  const page = Number(searchParams.get("page")) || 0;
+  const searchTerm = searchParams.get("searchTerm") || "";
+  const data = await getBooks(page, searchTerm);
   if (!data) {
     throw new Response("Not Found", { status: 404 });
   }

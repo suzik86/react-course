@@ -1,6 +1,6 @@
+import { Outlet, useSearchParams } from "@remix-run/react";
 import { FC, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { Outlet, useSearchParams } from "react-router-dom";
 import { ThemeContext } from "../../ThemeContext";
 import BooksList from "../../components/booksList/BooksList";
 import Loader from "../../components/loader/Loader";
@@ -17,9 +17,6 @@ const MainPage: FC<{
   const [theme, setTheme] = useState("light");
   const [searchParams, setSearchParams] = useSearchParams();
   const page = Number(searchParams.get("page")) || 0;
-  // const [searchTerm, setSearchTerm] = useLocalStorage(
-  //   LocalStorageKeysEnum.searchTerm,
-  // ) as [string, React.Dispatch<React.SetStateAction<string>>];
   const [searchTerm, setSearchTerm] = useState("");
 
   const saveSearchTerm = (searchTerm: string) => {

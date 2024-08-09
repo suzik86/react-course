@@ -1,5 +1,5 @@
+import { Link, useSearchParams } from "@remix-run/react";
 import { FC, useContext } from "react";
-import { Link } from "react-router-dom";
 import { ThemeContext } from "../../ThemeContext";
 import { IBook } from "../../interfaces";
 import "./Book.css";
@@ -11,9 +11,13 @@ type Props = {
 
 const Book: FC<Props> = ({ book, currentPage }) => {
   const theme = useContext(ThemeContext);
-
+  const [searchParams] = useSearchParams();
+  const searchTerm = searchParams.get("searchTerm") || "";
   return (
-    <Link to={`/book/${book.uid}?page=${currentPage}`} className="book-link">
+    <Link
+      to={`/book/${book.uid}?searchTerm=${searchTerm}&page=${currentPage}`}
+      className="book-link"
+    >
       <div className="book-card">
         <div
           className={theme === "light" ? "light-book-title" : "dark-book-title"}

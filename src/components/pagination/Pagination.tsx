@@ -1,6 +1,6 @@
+import { Link, useSearchParams } from "@remix-run/react";
 import { FC } from "react";
 import "./Pagination.css";
-import { Link } from "react-router-dom";
 
 type Props = {
   currentPage: number;
@@ -8,15 +8,16 @@ type Props = {
 };
 
 const Pagination: FC<Props> = ({ currentPage, totalPages }) => {
+  const [searchParams] = useSearchParams();
+  const searchTerm = searchParams.get("searchTerm") || "";
+
   const disablePrevious = !currentPage;
   const disableNext = currentPage === totalPages - 1;
 
-  //const currentUrl = window.location.pathname;
-  const currentUrl = "/";
   return (
     <div className="pagination">
       <Link
-        to={`${currentUrl}?page=${currentPage - 1}`}
+        to={`/?searchTerm=${searchTerm}&page=${currentPage - 1}`}
         className="previous-button-link"
       >
         <button className="previous-button" disabled={disablePrevious}>
@@ -27,7 +28,7 @@ const Pagination: FC<Props> = ({ currentPage, totalPages }) => {
         <span className="current-page">{currentPage + 1}</span> of {totalPages}
       </span>
       <Link
-        to={`${currentUrl}?page=${currentPage + 1}`}
+        to={`/?searchTerm=${searchTerm}&page=${currentPage + 1}`}
         className="next-button-link"
       >
         <button className="next-button" disabled={disableNext}>

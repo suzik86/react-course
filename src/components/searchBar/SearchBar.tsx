@@ -1,3 +1,4 @@
+import { useNavigate } from "@remix-run/react";
 import { FC, useContext, useEffect, useState } from "react";
 import { ThemeContext } from "../../ThemeContext";
 import "./SearchBar.css";
@@ -11,11 +12,12 @@ const SearchBar: FC<Props> = ({ searchTerm, setSearchTerm }) => {
   const [error, setError] = useState<Error | null>(null);
   const [inputTerm, setInputTerm] = useState<string>(searchTerm);
   const theme = useContext(ThemeContext);
+  const navigate = useNavigate();
 
   const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setSearchTerm(inputTerm);
-    //router.push(`/?searchTerm=${inputTerm}&page=0`);
+    navigate(`/?searchTerm=${inputTerm}&page=0`);
   };
 
   const throwError = () => {

@@ -1,11 +1,10 @@
-import "whatwg-fetch";
 import "@testing-library/jest-dom";
 import { fireEvent, render, waitFor } from "@testing-library/react";
-import { MemoryRouter } from "react-router-dom";
-import BooksList from "../components/booksList/BooksList";
-import { BookListMock } from "./mocks/BookListMock";
 import { Provider } from "react-redux";
+import "whatwg-fetch";
+import BooksList from "../components/booksList/BooksList";
 import { AppStore, setupStore } from "../store/store";
+import { BookListMock } from "./mocks/BookListMock";
 
 let store: AppStore;
 
@@ -23,13 +22,12 @@ describe("BookList component", () => {
     const props = {
       totalPages: 2,
       currentPage: 0,
+      list: BookListMock.books,
     };
 
     const { container } = render(
       <Provider store={store}>
-        <MemoryRouter>
-          <BooksList {...props} />
-        </MemoryRouter>
+        <BooksList {...props} />
       </Provider>,
     );
     const cards = container.querySelectorAll(".book-card");
@@ -44,6 +42,7 @@ describe("BookList component", () => {
     const props = {
       totalPages: 1,
       currentPage: 0,
+      list: [],
     };
 
     store = setupStore({
@@ -57,9 +56,7 @@ describe("BookList component", () => {
 
     const { getByText } = render(
       <Provider store={store}>
-        <MemoryRouter>
-          <BooksList {...props} />
-        </MemoryRouter>
+        <BooksList {...props} />
       </Provider>,
     );
     const message = getByText("No matching books");
@@ -79,13 +76,12 @@ describe("BookList component", () => {
     const props = {
       totalPages: 2,
       currentPage: 0,
+      list: BookListMock.books,
     };
 
     const { container } = render(
       <Provider store={store}>
-        <MemoryRouter>
-          <BooksList {...props} />
-        </MemoryRouter>
+        <BooksList {...props} />
       </Provider>,
     );
     const checkbox = container.querySelectorAll(".book-checkbox")[0];

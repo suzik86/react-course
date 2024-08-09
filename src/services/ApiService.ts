@@ -16,9 +16,7 @@ export async function getBooks(page = 0, searchTerm = "") {
     );
     dataFromServer = await res.json();
   } else {
-    res = await fetch(
-      `${BASE_URL}/book/search?pageNumber=${page}&pageSize=10`,
-    );
+    res = await fetch(`${BASE_URL}/book/search?pageNumber=${page}&pageSize=10`);
     dataFromServer = await res.json();
   }
   if (!res.ok) {
