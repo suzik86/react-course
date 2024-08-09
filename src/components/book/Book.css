@@ -1,0 +1,21 @@
+.book-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid green;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.light-book-title,
+.dark-book-title {
+  font-weight: 600;
+}
+
+.light-book-title {
+  color: black;
+}
+
+.dark-book-title {
+  color: white;
+}
