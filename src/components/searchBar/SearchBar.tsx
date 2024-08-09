@@ -15,6 +15,7 @@ const SearchBar: FC<Props> = ({ searchTerm, setSearchTerm }) => {
   const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setSearchTerm(inputTerm);
+    //router.push(`/?searchTerm=${inputTerm}&page=0`);
   };
 
   const throwError = () => {

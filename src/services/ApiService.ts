@@ -1,41 +1,38 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { IBook, IResponse } from "../interfaces";
-
 const BASE_URL = "https://stapi.co/api/v2/rest";
 
-export const api = createApi({
-  reducerPath: "api",
-  baseQuery: fetchBaseQuery({ baseUrl: BASE_URL }),
-  tagTypes: ["Books"],
-  endpoints: (builder) => ({
-    getBooks: builder.query<IResponse, { searchTerm: string; page?: number }>({
-      query: ({ searchTerm, page = 0 }) => ({
-        url: `/book/search?pageNumber=${page}&pageSize=10`,
+export async function getBooks(page = 0, searchTerm = "") {
+  let res, dataFromServer;
+  if (searchTerm) {
+    res = await fetch(
+      `${BASE_URL}/book/search?pageNumber=${page}&pageSize=10`,
+      {
         method: "POST",
         headers: {
           Accept: "application/json",
           "Content-Type": "application/x-www-form-urlencoded",
         },
         body: `title=${searchTerm}`,
-      }),
-      transformResponse: ({ books, page, sort }: IResponse) => ({
-        books,
-        totalPages: page.totalPages,
-        page,
-        sort,
-      }),
-      providesTags: ["Books"],
-    }),
-    getBookById: builder.query<IBook, string>({
-      query: (bookId) => `/book?uid=${bookId}`,
-    }),
-  }),
-});
+      },
+    );
+    dataFromServer = await res.json();
+  } else {
+    res = await fetch(
+      `${BASE_URL}/book/search?pageNumber=${page}&pageSize=10`,
+    );
+    dataFromServer = await res.json();
+  }
+  if (!res.ok) {
+    throw new Error("Failed to fetch data");
+  }
 
-export const {
-  useGetBooksQuery,
-  useGetBookByIdQuery,
-}: {
-  useGetBooksQuery: CallableFunction;
-  useGetBookByIdQuery: CallableFunction;
-} = api;
+  return dataFromServer;
+}
+
+export async function getBookDetails(id: string) {
+  const res = await fetch(`${BASE_URL}/book?uid=${id}`);
+  if (!res.ok) {
+    throw new Error("Failed to fetch data");
+  }
+  const dataFromServer = await res.json();
+  return dataFromServer;
+}

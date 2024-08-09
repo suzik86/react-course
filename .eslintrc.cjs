@@ -11,7 +11,7 @@ module.exports = {
   plugins: ["react-refresh", "react-compiler"],
   rules: {
     "react-refresh/only-export-components": [
-      "warn",
+      "off",
       { allowConstantExport: true },
     ],
     "react-compiler/react-compiler": "error",

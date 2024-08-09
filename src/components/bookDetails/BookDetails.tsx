@@ -1,19 +1,19 @@
-import { useEffect, useRef } from "react";
+import { FC, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
-import { useGetBookByIdQuery } from "../../services/ApiService";
+import { useNavigate } from "react-router-dom";
+//import { useGetBookByIdQuery } from "../../services/ApiService";
 import { selectedItemDetails } from "../../store/selected-item-details/selectedItemDetailsSlice";
 import { selectSelectedItemsDetails } from "../../store/selected-item-details/selectors";
 import useOutsideAlerter from "../../utils/useOutsideAlerter";
 import Loader from "../loader/Loader";
 import "./BookDetails.css";
+import { IBookDetails } from "../../interfaces";
 
-const BookDetails = () => {
-  const params = useParams<{ bookId: string }>();
-
-  const { data, isFetching, isError, error } = useGetBookByIdQuery(
-    params?.bookId,
-  );
+const BookDetails: FC<{
+  data: IBookDetails;
+  isLoading: boolean;
+}> = ({ data, isLoading }) => {
+  // const params = useParams<{ bookId: string }>();
 
   const dispatch = useDispatch();
   useEffect(() => {
@@ -28,13 +28,10 @@ const BookDetails = () => {
   const wrapperRef = useRef(null);
   useOutsideAlerter(wrapperRef, () => navigate(-1));
 
-  if (isFetching) {
+  if (isLoading) {
     return <Loader />;
   }
-  if (isError) {
-    return <div>{error}</div>;
-  }
-
+  
   return (
     <>
       {bookDetails && Object.keys(bookDetails).length && (

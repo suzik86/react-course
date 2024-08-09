@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { IBook } from "../../interfaces";
-import { selectCurrentPageItems } from "../../store/current-page/selectors";
+//import { selectCurrentPageItems } from "../../store/current-page/selectors";
 import {
   selectBook,
   unselectBook,
@@ -11,14 +11,17 @@ import Book from "../book/Book";
 import Pagination from "../pagination/Pagination";
 import SelectedBooksButtons from "../selectedBooksButtons/SelectedBooksButtons";
 import "./BooksList.css";
+//import { BookListMock } from "../../tests/mocks/BookListMock";
 
 type Props = {
   totalPages: number;
   currentPage: number;
+  list: IBook[];
 };
 
-const BooksList: FC<Props> = ({ totalPages, currentPage }) => {
-  const list = useSelector(selectCurrentPageItems);
+const BooksList: FC<Props> = ({ totalPages, currentPage, list }) => {
+  
+  //const list = useSelector(selectCurrentPageItems);
   const selectedBooksList = useSelector(selectSelectedBooks);
 
   const dispatch = useDispatch();

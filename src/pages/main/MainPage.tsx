@@ -1,28 +1,26 @@
-import { useEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Outlet, useSearchParams } from "react-router-dom";
 import { ThemeContext } from "../../ThemeContext";
 import BooksList from "../../components/booksList/BooksList";
 import Loader from "../../components/loader/Loader";
 import SearchBar from "../../components/searchBar/SearchBar";
-import { LocalStorageKeysEnum } from "../../enums";
-import { useGetBooksQuery } from "../../services/ApiService";
 import { currentPageItems } from "../../store/current-page/currentPageSlice";
-import useLocalStorage from "../../utils/useLocalStorage";
 import "./MainPage.css";
 
-const MainPage = () => {
+import { IResponse } from "../../interfaces";
+
+const MainPage: FC<{
+  data: IResponse;
+  isLoading: boolean;
+}> = ({ data, isLoading }) => {
   const [theme, setTheme] = useState("light");
   const [searchParams, setSearchParams] = useSearchParams();
   const page = Number(searchParams.get("page")) || 0;
-  const [searchTerm, setSearchTerm] = useLocalStorage(
-    LocalStorageKeysEnum.searchTerm,
-  ) as [string, React.Dispatch<React.SetStateAction<string>>];
-
-  const { data, isFetching, isError, error, currentData } = useGetBooksQuery({
-    searchTerm,
-    page,
-  });
+  // const [searchTerm, setSearchTerm] = useLocalStorage(
+  //   LocalStorageKeysEnum.searchTerm,
+  // ) as [string, React.Dispatch<React.SetStateAction<string>>];
+  const [searchTerm, setSearchTerm] = useState("");
 
   const saveSearchTerm = (searchTerm: string) => {
     setSearchTerm(searchTerm);
@@ -50,10 +48,13 @@ const MainPage = () => {
         <SearchBar searchTerm={searchTerm} setSearchTerm={saveSearchTerm} />
         <div className="main-block-wrapper">
           <div className="book-list-wrapper">
-            {isFetching && <Loader />}
-            {isError && <div>{error}</div>}
-            {currentData && (
-              <BooksList totalPages={data.totalPages} currentPage={page} />
+            {isLoading && <Loader />}
+            {!isLoading && (
+              <BooksList
+                totalPages={data.page.totalPages}
+                currentPage={page}
+                list={data.books}
+              />
             )}
           </div>
           <Outlet />
