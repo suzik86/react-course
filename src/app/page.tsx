@@ -1,11 +1,7 @@
-import { cache, Suspense } from "react";
-import Loader from "../components/loader/Loader";
-import HomePage from "./home-page";
+import BooksList from "../components/booksList/BooksList";
 
-export const getBooks = cache(async (page = 0, searchTerm = "") => {
-  let res, dataFromServer;
-  if (searchTerm) {
-    res = await fetch(
+export const getBooks = async (page = 0, searchTerm = "") => {
+    const res = await fetch(
       `https://stapi.co/api/v2/rest/book/search?pageNumber=${page}&pageSize=10`,
       {
         method: "POST",
@@ -16,29 +12,19 @@ export const getBooks = cache(async (page = 0, searchTerm = "") => {
         body: `title=${searchTerm}`,
       },
     );
-    dataFromServer = await res.json();
-  } else {
-    res = await fetch(
-      `https://stapi.co/api/v2/rest/book/search?pageNumber=${page}&pageSize=10`,
-    );
-    dataFromServer = await res.json();
-  }
+    const dataFromServer = await res.json();
+  
   if (!res.ok) {
     throw new Error("Failed to fetch data");
   }
 
   return dataFromServer;
-});
+};
 
-export default async function Page({
-  searchParams: { page, searchTerm },
-}: {
-  searchParams: { page: number; searchTerm: string };
-}) {
-  const data = await getBooks(page, searchTerm);
-  return (
-    <Suspense fallback={<Loader />}>
-      <HomePage dataFromServer={data} />
-    </Suspense>
-  );
+// лень тип писать
+// eslint-disable-next-line @typescript-eslint/no-explicit-any 
+export default async function Page({searchParams: { page, searchTerm }}: any) {
+  const data = await getBooks(page, searchTerm)
+  
+  return <BooksList totalPages={data?.page.totalPages} currentPage={Number(page)} searchTerm={searchTerm} list={data?.books} />;
 }

@@ -1,44 +1,24 @@
 "use client";
 import { useSearchParams } from "next/navigation";
-//import { Router } from "next/router"; 
 import { ReactNode, useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import BooksList from "../components/booksList/BooksList";
-//import Loader from "../components/loader/Loader";
 import SearchBar from "../components/searchBar/SearchBar";
 import { LocalStorageKeysEnum } from "../enums";
 import { IResponse } from "../interfaces";
-import { currentPageItems } from "../store/current-page/currentPageSlice";
 import styles from "../styles/Home.module.css";
 import { ThemeContext } from "../ThemeContext";
 import useLocalStorage from "../utils/useLocalStorage";
 import ErrorBoundary from "../components/ErrorBoundary";
+import { useDispatch } from "react-redux";
+import { currentPageItems } from "../store/current-page/currentPageSlice";
 
 interface HomeProps {
   children?: ReactNode;
   dataFromServer?: IResponse;
 }
-const HomePage: React.FC<HomeProps> = ({ children, dataFromServer }) => {
+export default function HomePage ({ children, dataFromServer }: HomeProps) {
   const [theme, setTheme] = useState("light");
-  //const [isLoading, setLoading] = useState(false);
-  // useEffect(() => {
-  //   const start = () => {
-  //     setLoading(true);
-  //   };
-  //   const end = () => {
-  //     setLoading(false);
-  //   };
-  //   Router.events.on("routeChangeStart", start);
-  //   Router.events.on("routeChangeComplete", end);
-  //   Router.events.on("routeChangeError", end);
-  //   return () => {
-  //     Router.events.off("routeChangeStart", start);
-  //     Router.events.off("routeChangeComplete", end);
-  //     Router.events.off("routeChangeError", end);
-  //   };
-  // }, []);
+
   const searchParams = useSearchParams();
-  const page = Number(searchParams?.get("page")) || 0;
 
   const [searchTerm, setSearchTerm] = useLocalStorage(
     LocalStorageKeysEnum.searchTerm,
@@ -77,25 +57,11 @@ const HomePage: React.FC<HomeProps> = ({ children, dataFromServer }) => {
           <h1>Book Library</h1>
           <SearchBar searchTerm={searchTerm} setSearchTerm={saveSearchTerm} />
           <div className={styles.main_block_wrapper}>
-            <div className={styles.book_list_wrapper}>
-              {/* {isLoading && <Loader />} */}
-              {/* {!isLoading && dataFromServer && ( */}
-              {dataFromServer && (
-                // <Suspense fallback={<Loader/>}>
-                <BooksList
-                  totalPages={dataFromServer?.page?.totalPages || 0}
-                  currentPage={page}
-                  searchTerm={searchTerm}
-                />
-                // </Suspense>
-              )}
-            </div>
             {children}
           </div>
         </main>
       </ThemeContext.Provider>
     </ErrorBoundary>
   );
-};
+}
 
-export default HomePage;

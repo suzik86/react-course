@@ -16,7 +16,7 @@ const Book: FC<Props> = ({ book, currentPage, searchTerm }) => {
 
   return (
     <Link
-      href={`/book/${book.uid}?searchTerm=${searchTerm}&page=${currentPage}`}
+      href={`/books/${book.uid}?searchTerm=${searchTerm}&page=${currentPage}`}
       className={styles.book_link}
     >
       <div className={styles.book_card}>

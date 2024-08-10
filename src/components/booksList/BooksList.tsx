@@ -2,31 +2,30 @@
 import { FC } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { IBook } from "../../interfaces";
-import { selectCurrentPageItems } from "../../store/current-page/selectors";
 import {
   selectBook,
   unselectBook,
 } from "../../store/selected-books/selectedBooksSlice";
-import { selectSelectedBooks } from "../../store/selected-books/selectors";
 import Book from "../book/Book";
 import Pagination from "../pagination/Pagination";
 import SelectedBooksButtons from "../selectedBooksButtons/SelectedBooksButtons";
 import styles from "./BooksList.module.css";
+import { selectSelectedBooks } from "../../store/selected-books/selectors";
 
 type BooksListProps = {
   totalPages: number;
   currentPage: number;
   searchTerm: string;
+  list: IBook[];
 };
 
 const BooksList: FC<BooksListProps> = ({
   totalPages,
   currentPage,
   searchTerm,
+  list
 }) => {
-  const list = useSelector(selectCurrentPageItems);
   const selectedBooksList = useSelector(selectSelectedBooks);
-
   const dispatch = useDispatch();
 
   const handleClick = (book: IBook, e: React.ChangeEvent<HTMLInputElement>) => {
@@ -38,8 +37,7 @@ const BooksList: FC<BooksListProps> = ({
   };
 
   return (
-    <>
-      <div>
+      <div className={styles.container}> 
         {Boolean(selectedBooksList.length) && (
           <SelectedBooksButtons selectedBooks={selectedBooksList} />
         )}
@@ -62,15 +60,14 @@ const BooksList: FC<BooksListProps> = ({
               </div>
             ))}
         </div>
-      </div>
-      {Boolean(list.length) && (
+        {Boolean(list.length) && (
         <Pagination
           currentPage={currentPage}
           totalPages={totalPages}
           searchTerm={searchTerm}
         />
       )}
-    </>
+      </div>
   );
 };
 

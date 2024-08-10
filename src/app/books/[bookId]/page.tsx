@@ -1,5 +1,5 @@
 import BookDetails from "../../../components/bookDetails/BookDetails";
-import HomePage from "../../home-page";
+import BooksList from "../../../components/booksList/BooksList";
 import { getBooks } from "../../page";
 
 async function getBookDetails(id: string) {
@@ -13,18 +13,19 @@ async function getBookDetails(id: string) {
 
 const PageWithDetails = async ({
   params: { bookId },
-  searchParams: { page, searchTerm },
+  searchParams: {page, searchTerm}
 }: {
   params: { bookId: string };
   searchParams: { page: number; searchTerm: string };
 }) => {
   const id = bookId;
-  const data = await getBooks(page, searchTerm);
-  const dataById = await getBookDetails(id);
+  const [dataById, data] = await Promise.all([getBookDetails(id), getBooks(page, searchTerm)])
   return (
-    <HomePage dataFromServer={data}>
-      {bookId && <BookDetails dataByIdFromServer={dataById} />}
-    </HomePage>
+    <>
+      <BooksList totalPages={data?.page.totalPages} currentPage={Number(page)} searchTerm={searchTerm} list={data?.books} />
+      <BookDetails dataByIdFromServer={dataById} />
+    </>
+      
   );
 };
 
