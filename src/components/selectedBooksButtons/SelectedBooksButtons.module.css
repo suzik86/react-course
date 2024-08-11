@@ -1,0 +1,6 @@
+.selected_books_block {
+  display: flex;
+  justify-content: center;
+  align-items: baseline;
+  gap: 20px;
+}

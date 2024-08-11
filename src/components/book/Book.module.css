@@ -1,0 +1,27 @@
+.book_link {
+  width: 80%;
+  text-decoration: none;
+  color: black;
+}
+
+.book_card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid green;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.light_book_title,
+.dark_book_title {
+  font-weight: 600;
+}
+
+.light_book_title {
+  color: black;
+}
+
+.dark_book_title {
+  color: white;
+}
