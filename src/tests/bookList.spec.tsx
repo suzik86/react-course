@@ -5,8 +5,26 @@ import "whatwg-fetch";
 import BooksList from "../components/booksList/BooksList";
 import { AppStore, setupStore } from "../store/store";
 import { BookListMock } from "./mocks/BookListMock";
+import { useState } from "react";
 
 let store: AppStore;
+let mockSearchParam = "page=1";
+
+jest.mock("@remix-run/react", () => ({
+  Link: ({ children, ...props }: { children: React.ReactNode }) => (
+    <a {...props}>{children}</a>
+  ),
+  useSearchParams: () => {
+    const [params, setParams] = useState(new URLSearchParams(mockSearchParam));
+    return [
+      params,
+      (newParams: string) => {
+        mockSearchParam = newParams;
+        setParams(new URLSearchParams(newParams));
+      },
+    ];
+  },
+}));
 
 describe("BookList component", () => {
   test("Verify that the component renders the specified number of cards", async () => {

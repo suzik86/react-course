@@ -48,7 +48,7 @@ const MainPage: FC<{
             {isLoading && <Loader />}
             {!isLoading && (
               <BooksList
-                totalPages={data.page.totalPages}
+                totalPages={data.page.totalPages || 0}
                 currentPage={page}
                 list={data.books}
               />

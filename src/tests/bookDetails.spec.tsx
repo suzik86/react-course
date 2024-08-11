@@ -12,16 +12,9 @@ fetchMock.enableMocks();
 
 let store: AppStore;
 
-jest.mock("react-router-dom", () => ({
-  ...jest.requireActual("react-router-dom"),
-  useParams: jest.fn(() => ({
-    uid: "BOMA0000168934",
-  })),
-}));
-
 const mockedUsedNavigate = jest.fn();
-jest.mock("react-router-dom", () => ({
-  ...jest.requireActual("react-router-dom"),
+
+jest.mock("@remix-run/react", () => ({
   useNavigate: () => mockedUsedNavigate,
 }));
 
@@ -35,14 +28,11 @@ describe("BookDetails component", () => {
     render(
       <Provider store={store}>
         <MemoryRouter>
-          <BookDetails />
+          <BookDetails data={BookDetailsMock} isLoading={true} />
         </MemoryRouter>
       </Provider>,
     );
     expect(document.querySelector(".loader")).toBeInTheDocument();
-    await waitFor(() => {
-      expect(document.querySelector(".loader")).not.toBeInTheDocument();
-    });
   });
 
   test("Make sure the detailed card component correctly displays the detailed card data", async () => {
@@ -56,7 +46,7 @@ describe("BookDetails component", () => {
     const { getByText } = render(
       <Provider store={store}>
         <MemoryRouter>
-          <BookDetails />
+          <BookDetails data={BookDetailsMock} isLoading={false} />
         </MemoryRouter>
       </Provider>,
     );
@@ -77,7 +67,7 @@ describe("BookDetails component", () => {
     const { container } = render(
       <Provider store={store}>
         <MemoryRouter>
-          <BookDetails />
+          <BookDetails data={BookDetailsMock} isLoading={false} />
         </MemoryRouter>
       </Provider>,
     );
