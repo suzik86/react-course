@@ -5,7 +5,6 @@ import { IBookDetails } from "../../interfaces";
 import { selectedItemDetails } from "../../store/selected-item-details/selectedItemDetailsSlice";
 import { selectSelectedItemsDetails } from "../../store/selected-item-details/selectors";
 import useOutsideAlerter from "../../utils/useOutsideAlerter";
-//import Loader from "../loader/Loader";
 import styles from "./BookDetails.module.css";
 import { useRouter } from "next/navigation";
 import ErrorBoundary from "../ErrorBoundary";
@@ -21,39 +20,16 @@ const BookDetails: FC<BookDetailsProps> = ({ dataByIdFromServer }) => {
     if (dataByIdFromServer) {
       dispatch(selectedItemDetails(dataByIdFromServer));
     }
-  }, [dataByIdFromServer, dispatch]);
-  //const [isLoading, setLoading] = useState(false);
-
-  // useEffect(() => {
-  //   const start = () => {
-  //     setLoading(true);
-  //   };
-  //   const end = () => {
-  //     setLoading(false);
-  //   };
-  //   Router.events.on("routeChangeStart", start);
-  //   Router.events.on("routeChangeComplete", end);
-  //   Router.events.on("routeChangeError", end);
-  //   return () => {
-  //     Router.events.off("routeChangeStart", start);
-  //     Router.events.off("routeChangeComplete", end);
-  //     Router.events.off("routeChangeError", end);
-  //   };
-  // }, []);
+  }, [dataByIdFromServer, dispatch]);  
   const bookDetails = useSelector(selectSelectedItemsDetails);
 
   const wrapperRef = useRef(null);
   useOutsideAlerter(wrapperRef, () => router.back());
 
-  // if (isLoading) {
-  //   return <Loader />;
-  // }
-
   return (
     <ErrorBoundary
       fallback={<p className={styles.error_msg}>Something went wrong</p>}
-    >
-      {/* {!isLoading && bookDetails && Object.keys(bookDetails).length && ( */}
+    >     
       {bookDetails && Object.keys(bookDetails).length && (
         <div className={styles.book_details_wrapper} ref={wrapperRef}>
           <div className={styles.book_details}>
